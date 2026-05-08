@@ -55,6 +55,8 @@ The plugin should work as a reusable local job-search operating system:
 
 The product should be delivered as a Codex plugin.
 
+For v1, this should be a prompt-first plugin, similar in spirit to the Claude assistant repo: mostly Markdown skills, workflow specs, and workspace templates. Do not ship helper programs, automation scripts, ATS adapters, or resume-rendering code yet. The agent should infer and perform the steps from the Markdown instructions using the tools available in the active Codex session.
+
 Planned package shape:
 
 ```text
@@ -63,13 +65,16 @@ plugins/codex-linkedin-job-assistant/
   skills/
     job-search/
       SKILL.md
-  scripts/
-    init_workspace.sh
-    validate_workspace.sh
-    resume/
-      build_latex.sh
-      render_docx.sh
-      render_markdown.sh
+      references/
+        tracker-schema.md
+        setup.md
+        daily.md
+        check.md
+        find.md
+        apply.md
+        referral.md
+        resume-backends.md
+        browser-preflight.md
   templates/
     job_tracker.csv
     README.md
@@ -98,6 +103,8 @@ The plugin should expose workflows through a Codex skill rather than Claude-spec
 - `jobs setup`
 
 There should be no `jobs add` or `jobs update` workflow.
+
+The plugin instructions may tell Codex to run existing user-local tools such as `pdflatex`, LibreOffice, browser automation, or git when needed. Those are runtime actions, not shipped plugin code.
 
 ## 6. Existing Tracker Schema
 

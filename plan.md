@@ -1,25 +1,32 @@
-# Implementation Plan: Codex LinkedIn Job Search Assistant Plugin
+# Implementation Plan: Prompt-First Codex LinkedIn Assistant Plugin
 
-## 1. Implementation Strategy
+## 1. Direction Change
 
-Implement this as a generic Codex plugin, not as a direct copy of the Claude command repo.
+For now, build this like the Claude assistant repo: a Codex plugin made primarily of Markdown instructions and templates.
 
-The private workflow is a feature reference only. The public repo is the baseline behavior reference. The new implementation should be Codex-native, installable, generic, and free of any user-specific content.
+Do not implement helper programs, custom ATS adapters, or resume-rendering programs in v1. The plugin should teach the agent what to do, what files to read/write, what checks to perform, and what decisions to make. Codex will use its normal tools at runtime to inspect files, edit Markdown/CSV, drive Chrome, run available user-local commands, and interact with the user.
 
-Core design principles:
+Allowed v1 artifacts:
 
-- Plugin ships instructions, templates, scripts, and adapters.
-- User workspace stores all private data.
-- Tracker schema stays unchanged.
-- No standalone `add` or `update` workflow.
-- Referral is one orchestrator.
-- Daily is one orchestrator.
-- Resume generation supports multiple backends.
-- Browser automation uses Codex Chrome extension, including file upload when file URL access is enabled.
+- Plugin manifest.
+- Markdown skill files.
+- Markdown workflow references.
+- Markdown README/docs.
+- Template files such as `.gitignore`, `job_tracker.csv`, example profile JSON, and example screening-answer Markdown.
+- Optional static assets.
 
-## 2. Proposed Repository Layout
+Not allowed in v1:
 
-Create the plugin in this repo:
+- Helper program files.
+- Shell automation files.
+- App source code.
+- Custom browser automation libraries.
+- Custom resume renderer code.
+- Hardcoded private candidate data.
+
+## 2. Plugin Package Shape
+
+Create the plugin in this repo as:
 
 ```text
 plugins/codex-linkedin-job-assistant/
@@ -29,27 +36,18 @@ plugins/codex-linkedin-job-assistant/
     job-search/
       SKILL.md
       references/
+        overview.md
+        setup.md
         tracker-schema.md
-        workflows.md
         browser-preflight.md
         resume-backends.md
-        referral-orchestrator.md
-        application-flow.md
-  scripts/
-    init_workspace.sh
-    validate_workspace.sh
-    tracker/
-      validate_tracker.py
-      read_dashboard.py
-      update_tracker.py
-    resume/
-      build_latex.sh
-      render_markdown.py
-      render_docx.sh
-      extract_resume_text.py
-    files/
-      sanitize_folder_name.py
-      make_application_folder.py
+        check.md
+        find.md
+        apply.md
+        referral.md
+        daily.md
+        writing-style.md
+        workspace-files.md
   templates/
     README.md
     .gitignore
@@ -62,854 +60,658 @@ plugins/codex-linkedin-job-assistant/
       screening_answers.example.md
     base_resumes/
       README.md
-  assets/
-    logo.png
+    applications/
+      README.md
+    outreach/
+      README.md
 ```
 
-Optional marketplace entry:
+Optional marketplace metadata:
 
 ```text
 .agents/plugins/marketplace.json
 ```
 
-## 3. Plugin Manifest Plan
+The plugin is installable because of the manifest, but the actual product behavior lives in Markdown prompt files.
 
-Use the plugin creator workflow to scaffold:
+## 3. Manifest Plan
+
+Create:
 
 ```text
 plugins/codex-linkedin-job-assistant/.codex-plugin/plugin.json
 ```
 
-Manifest requirements:
+Manifest intent:
 
 - Name: `codex-linkedin-job-assistant`
 - Display name: `Codex LinkedIn Job Assistant`
 - Category: `Productivity`
-- Include the job-search skill.
-- Include scripts and templates as plugin assets.
-- Do not include private workspace state.
+- Expose the `job-search` skill.
+- Include templates as plugin files.
+- No private workspace data.
 
-Marketplace entry if needed:
+Keep the manifest minimal. Do not add MCP servers, hooks, scripts, or apps in v1.
 
-```json
-{
-  "name": "codex-linkedin-job-assistant",
-  "source": {
-    "source": "local",
-    "path": "./plugins/codex-linkedin-job-assistant"
-  },
-  "policy": {
-    "installation": "AVAILABLE",
-    "authentication": "ON_INSTALL"
-  },
-  "category": "Productivity"
-}
-```
+## 4. Primary Skill
 
-## 4. Skill Design
-
-Create one primary skill:
+Create:
 
 ```text
-skills/job-search/SKILL.md
+plugins/codex-linkedin-job-assistant/skills/job-search/SKILL.md
 ```
 
-The skill should trigger on:
+Purpose:
 
+- Main entry point for all job-search work.
+- Tells Codex which reference files to read for each workflow.
+- Defines command-like user intents without requiring a slash-command system.
+- Enforces privacy, generic behavior, approval gates, and tracker schema.
+
+Trigger phrases:
+
+- "jobs setup"
 - "jobs daily"
-- "job search"
-- "find jobs"
-- "apply to jobs"
-- "tailor resume"
-- "referral"
+- "jobs check"
+- "jobs find"
+- "jobs apply"
+- "jobs referral"
+- "tailor my resume"
+- "apply to this job"
+- "handle referrals"
 - "LinkedIn outreach"
 - "job tracker"
 
-The skill should define the user-facing workflows:
+The skill should explicitly state:
 
-- `jobs setup`
-- `jobs check`
-- `jobs find`
-- `jobs apply`
-- `jobs referral`
-- `jobs daily`
+- There is no standalone `add` workflow.
+- There is no standalone `update` workflow.
+- Manual job links are handled by `find`/intake.
+- Status changes happen through apply/referral outcomes or direct CSV edits by the user.
 
-There should be no `jobs add` and no `jobs update`.
+## 5. Reference Files
 
-Implementation note:
+Each reference file is a Markdown workflow spec. The skill should load only the relevant reference files for the current task.
 
-- Codex does not need Claude-style `.claude/commands`.
-- If command-like docs are useful, keep them as references under the skill, not as `.claude` command files.
+### 5.1 `overview.md`
 
-## 5. Workspace Initialization
+Explain the product:
 
-Implement `scripts/init_workspace.sh`.
+- Generic local job-search workspace.
+- Tracker as source of truth.
+- Resume/search profile as user source of truth.
+- Referral orchestrator.
+- Application folders.
+- Persistent memory.
+- Browser automation through Codex/Chrome.
 
-Responsibilities:
+### 5.2 `setup.md`
 
-- Create `job_tracker.csv` if missing.
-- Create `resumes/README.md`.
-- Create optional `resumes/search_profile.example.md`.
-- Create `profile/personal_info.example.json`.
-- Create `profile/screening_answers.example.md`.
-- Create `applications/`, `outreach/`, `base_resumes/`.
-- Create or append safe `.gitignore` entries.
-- Never overwrite user files without explicit confirmation.
+Prompt-only setup instructions:
 
-Tracker template:
+- Create missing workspace folders/files by editing from templates.
+- Never overwrite user files without confirmation.
+- Ensure privacy defaults are present in `.gitignore`.
+- Ask the user which resume backend they want.
+- Help create `profile/personal_info.json` from example if missing.
+- Help create `screening_answers.md` from example if missing.
 
-```csv
-Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,Notes,Discovered Date,Referral Needed,Referral Status,Referral Deadline,Apply Via
-```
-
-## 6. Preflight Design
-
-Preflight runs at the start of setup, daily, apply, find, and referral when needed.
-
-Checks:
-
-1. Workspace root exists.
-2. Tracker exists and schema matches exactly.
-3. Resume source exists.
-4. Resume text is extractable enough to identify user name, role/title, and skills.
-5. Optional search profile is loaded.
-6. Codex Chrome extension is installed and connected.
-7. LinkedIn is logged in.
-8. LinkedIn profile matches resume identity or user confirms.
-9. Chrome extension has "Allow access to file URLs" enabled.
-10. File upload smoke test passes if application/referral file upload will be needed.
-11. Resume backend tools are present.
-12. Git state is known.
-
-Chrome extension setup instructions to include in README and setup output:
+Setup must include Chrome extension instructions:
 
 ```text
 Chrome -> Extensions -> Manage Extensions -> Codex extension -> Details
 Enable: Allow access to file URLs
 ```
 
-File upload smoke test:
+The file URL setting is required because the assistant needs to upload local resume and cover-letter files through Chrome.
 
-- Generate a harmless local text file in a temporary location.
-- Attempt to access it through a `file://` URL or upload it into a harmless local test page.
-- If blocked, instruct the user to enable file URL access.
+### 5.3 `tracker-schema.md`
 
-## 7. Tracker Module
+Define the exact tracker schema:
 
-Implement reusable tracker utilities in:
-
-```text
-scripts/tracker/
+```csv
+Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,Notes,Discovered Date,Referral Needed,Referral Status,Referral Deadline,Apply Via
 ```
 
-Functions:
+Include:
+
+- Canonical statuses.
+- Canonical priorities.
+- Canonical referral status values.
+- Date format.
+- Preservation rules.
+- Dedup rules.
+- Ready-to-apply logic.
+- Referral-deadline logic.
 
-- Validate schema.
-- Read rows as structured records.
-- Preserve row order and untouched fields.
-- Write updates atomically.
-- Deduplicate by URL first, then company/role/location.
-- Compute ready-to-apply queue.
-- Compute referral deadline queue.
-- Compute follow-up queue.
-- Render markdown dashboards.
+The agent should manipulate CSV carefully with structured parsing where possible, but no custom parser is shipped.
 
-Important:
+### 5.4 `browser-preflight.md`
+
+Define browser checks:
+
+- Codex Chrome extension is available.
+- LinkedIn is logged in.
+- LinkedIn profile matches the resume identity or user confirms.
+- File URL access is enabled for the Codex extension.
+- File upload should be tested before an application or referral send that needs attachments.
+
+The agent can use whatever browser tools are available in the active Codex session. The Markdown should describe the required checks and failure messages, not implement them.
+
+### 5.5 `resume-backends.md`
+
+Define supported user choices:
 
-- Do not require new columns.
-- If a future feature needs more metadata, store it in `Notes` or sidecar files, not schema changes.
+- LaTeX source to PDF.
+- DOCX source to PDF.
+- Markdown/HTML source to PDF.
+- Existing PDF only.
 
-## 8. Resume Backend Architecture
+Important stance:
 
-Create a backend interface documented in `references/resume-backends.md`.
+- The plugin does not ship renderer code in v1.
+- Codex uses user-local tools if available.
+- LaTeX users may use `pdflatex`, `latexmk`, or their existing workflow.
+- DOCX users may use LibreOffice, Word, or available document tools.
+- Markdown/HTML users may use available browser/PDF/export tools.
+- PDF-only users can apply with the PDF, but true tailoring requires editable source.
 
-Common contract:
+The file should define how the agent chooses a base/source, tailors truthfully, validates the resulting PDF exists, and stores artifacts.
 
-```text
-detect_backend(resumes/, base_resumes/)
-extract_text(source)
-select_template(job_description, profile)
-tailor_source(source, job_description, user_profile)
-render_pdf(source_path, output_pdf_path)
-validate_pdf(pdf_path)
-```
+### 5.6 `check.md`
 
-Backends:
+Dashboard workflow:
 
-### 8.1 LaTeX Backend
+- Read `job_tracker.csv`.
+- Render markdown tables.
+- Show ready-to-apply jobs.
+- Show referral deadlines.
+- Show stale outreach.
+- Show connection-pending jobs.
+- Show newly found no-referral jobs.
+- Show applied jobs and next actions.
 
-Files:
+No code. The agent computes this directly from the CSV.
 
-```text
-scripts/resume/build_latex.sh
-```
+### 5.7 `find.md`
 
-Requirements:
+Discovery/intake workflow:
 
-- Detect `pdflatex` or `latexmk`.
-- Render PDF next to the tailored source.
-- Clean temporary build files.
-- Surface compiler errors clearly.
+- Read resume(s).
+- Read optional search profile.
+- Search LinkedIn and the web using available tools.
+- Accept manual links pasted by the user as intake.
+- Deduplicate against tracker.
+- Score candidates.
+- Decide priority.
+- Decide referral need:
+  - `YES` if company has more than 500 employees or more than 100K LinkedIn followers.
+  - Otherwise `NO`.
+- Add accepted jobs to tracker.
+- Return newly added no-referral jobs for instant apply.
 
-### 8.2 Markdown/HTML Backend
+There is no separate add command. This file owns both discovery and manual job intake.
 
-Files:
+### 5.8 `apply.md`
 
-```text
-scripts/resume/render_markdown.py
-```
+Application workflow:
 
-Requirements:
+- Pick a ready job.
+- Enforce referral gates.
+- Capture job description.
+- Create per-application folder.
+- Tailor resume if editable source exists.
+- Compile/export/render PDF using the user's selected workflow.
+- Generate cover letter if required or explicitly requested.
+- Open application URL.
+- Fill standard fields from profile memory.
+- Use stored screening answers before asking the user.
+- Upload resume through Chrome extension after file URL access is enabled.
+- Ask the user for sensitive or unknown questions.
+- Save new reusable answers.
+- Show final review summary.
+- Submit only after explicit approval.
+- Update tracker after confirmed submission.
+- Update notes/contact artifacts.
 
-- Use a simple Markdown or HTML template.
-- Render to PDF using available local tooling.
-- Good fallback for users without LaTeX.
+The agent performs actions from instructions, using normal Codex tools. The plugin does not ship form-filling code.
 
-### 8.3 DOCX Backend
+### 5.9 `referral.md`
 
-Files:
+Referral must be an orchestrator, not a router.
 
-```text
-scripts/resume/render_docx.sh
-```
+The orchestrator order:
 
-Requirements:
+1. Inspect tracker and outreach files.
+2. Check warm replies.
+3. Handle contacts who agreed to refer.
+4. Send referral materials by LinkedIn unless email is explicitly requested.
+5. Handle declined/no-response outcomes.
+6. Send follow-up nudges.
+7. Check connection-pending acceptances.
+8. Run new outreach.
+9. Enforce deadlines.
+10. Update tracker and logs.
 
-- Accept `.docx` source/template.
-- Edit through a document library or structured replacement strategy.
-- Export to PDF through LibreOffice if available.
+LinkedIn vs email rule:
 
-### 8.4 Existing PDF Backend
+- Use email only if the referrer explicitly asks for email or gives an email address.
+- Otherwise handle resume, role link, and message in LinkedIn.
 
-Requirements:
+Attachment behavior:
 
-- Extract text for profile/search.
-- Use PDF as-is for applications.
-- Clearly mark tailoring as unavailable unless editable source is added.
+- File uploads are allowed after Chrome extension file URL access is enabled.
+- Still require explicit user approval before sending LinkedIn messages or emails with referral materials.
 
-Initial recommendation:
+### 5.10 `daily.md`
 
-- Ship LaTeX plus Markdown/HTML first.
-- Add DOCX if local dependencies are reliable.
-
-## 9. Application Folder Module
-
-Implement:
-
-```text
-scripts/files/sanitize_folder_name.py
-scripts/files/make_application_folder.py
-```
-
-Folder format:
-
-```text
-applications/<YYYY-MM-DD>_<Company>_<Role>/
-```
-
-Create:
-
-- `job_description.md`
-- `resume_source.<ext>`
-- `resume.pdf`
-- `notes.md`
-- `contacts.md`
-- Optional `cover_letter.md`
-
-Rules:
-
-- Create folder when applying, preparing referral materials, or explicitly tailoring.
-- Do not create folders just because a job was discovered.
-- Sanitize spaces, slashes, commas, punctuation.
-
-## 10. Application Memory
-
-Files:
-
-```text
-profile/personal_info.json
-profile/screening_answers.md
-```
-
-`personal_info.json` should include generic fields:
-
-- `full_name`
-- `email`
-- `phone`
-- `location`
-- `linkedin_url`
-- `portfolio_url`
-- `github_url`
-- `work_authorization`
-- `sponsorship_required`
-- `salary_expectations`
-- `notice_period`
-- `relocation`
-- `onsite_remote_preferences`
-- `demographic_disclosures`
-- `work_preferences`
-
-`screening_answers.md` sections:
-
-- Standing answers.
-- Company-specific answered questions.
-- Date and company context.
-
-Behavior:
-
-- Use stored answers before asking.
-- Ask when missing or ambiguous.
-- Save new answers.
-- Promote stable preferences to `personal_info.json`.
-
-## 11. Find Workflow
-
-Inputs:
-
-- Resume text.
-- Search profile.
-- Tracker history.
-
-Steps:
-
-1. Build search profile from resume plus optional `resumes/search_profile.md`.
-2. Search LinkedIn and web.
-3. Extract company, role, location, type, salary, apply URL.
-4. Deduplicate.
-5. Score against preferences.
-6. Determine referral need:
-   - `YES` if company size >500 or LinkedIn followers >100K.
-   - Else `NO`.
-7. Write accepted/high-confidence jobs to tracker.
-8. Return list of newly added no-referral jobs for instant apply.
-
-No standalone add:
-
-- If user pastes a job link, run it through find/intake logic.
-- If user wants a manual row, the assistant can capture it through the find workflow.
-
-## 12. Check Workflow
-
-Dashboard sections:
-
-- Ready to apply now.
-- Referral deadlines due soon.
-- Stale outreach follow-ups.
-- Connection pending.
-- Newly discovered / no-referral jobs.
-- Applied jobs and next actions.
-
-Output:
-
-- Markdown tables.
-- Short next-action summary.
-
-## 13. Apply Workflow
-
-Inputs:
-
-- Ready-to-apply queue or explicit company/role.
-
-Eligibility:
-
-```text
-Status=To Apply
-AND (
-  Referral Needed=NO
-  OR Referral Status=Got Referral
-  OR Referral Status=No Referral
-  OR Referral Status=Declined
-  OR Referral Deadline <= today
-)
-```
-
-Steps:
-
-1. Pick job.
-2. Enforce referral gate.
-3. Fetch/capture JD.
-4. Create application folder.
-5. Tailor resume if editable backend exists.
-6. Render and validate PDF.
-7. Generate cover letter only if required or requested.
-8. Open application URL.
-9. Detect LinkedIn Easy Apply vs external ATS.
-10. Fill standard fields from profile memory.
-11. Upload resume file using Codex Chrome extension.
-12. Upload or paste cover letter if required.
-13. Ask user for missing/sensitive answers.
-14. Save new answers.
-15. Show review summary.
-16. Submit after explicit approval.
-17. Update tracker:
-    - `Status=Applied`
-    - `Applied Date=today`
-    - `Next Action=Follow up in 1 week`
-    - `Apply Via=<method>`
-18. Update notes.
-19. Return summary.
-
-ATS support phases:
-
-- Phase 1: LinkedIn Easy Apply and generic form fill.
-- Phase 2: Greenhouse, Lever, Ashby.
-- Phase 3: Workday and account-heavy ATS flows.
-
-## 14. Referral Orchestrator Design
-
-User invokes:
-
-```text
-jobs referral
-```
-
-The orchestrator owns the lifecycle and does not ask the user to choose between subcommands.
-
-Order:
-
-1. Read tracker and outreach logs.
-2. Check LinkedIn/email for warm replies.
-3. Process contacts who agreed to refer.
-4. Draft/send referral materials.
-5. Process declines.
-6. Convert expired no-response rows to `No Referral`.
-7. Send follow-up nudges for stale outreach.
-8. Check accepted connection requests.
-9. Run new outreach for pending companies.
-10. Update tracker/logs.
-
-### 14.1 Warm Reply Handling
-
-Classifications:
-
-- Agreed to refer.
-- Asked for resume/CV.
-- Asked for role link.
-- Explicitly requested email.
-- Asked clarifying question.
-- Declined.
-- Acknowledged only.
-- No response and deadline reached.
-
-### 14.2 LinkedIn vs Email Rule
-
-Use email only if explicitly requested.
-
-Explicit email request examples:
-
-- "Email me."
-- "Send to my work email."
-- "Use name@company.com."
-
-Otherwise, handle in LinkedIn:
-
-- "Send it here."
-- "Share it here."
-- "Drop the link."
-- "Send it over."
-
-### 14.3 Referral Materials Flow
-
-For agreed referrals:
-
-1. Verify tracker URL points to the intended role.
-2. Ensure application folder and resume PDF exist.
-3. Tailor/render resume if missing.
-4. Draft short message.
-5. Attach PDF through Codex Chrome extension.
-6. Send after approval.
-7. Update `Referral Status=Got Referral`.
-8. Log contact state.
-
-### 14.4 Follow-Up Nudge
-
-Candidate criteria:
-
-```text
-Referral Status=Outreach Sent
-last_message_date <= today - 3 days
-today < Referral Deadline
-```
-
-Draft:
-
-- Short.
-- No filler.
-- No misleading claims.
-- Ask for approval before sending.
-
-### 14.5 Outreach
-
-Candidate criteria:
-
-```text
-Referral Needed=YES
-Referral Status=Outreach Pending
-```
-
-Behavior:
-
-- Search LinkedIn contacts.
-- Prioritize 1st-degree contacts, recruiters, hiring managers, relevant peers.
-- Send DMs to 1st-degree contacts.
-- Send connection requests without notes to 2nd-degree contacts.
-- Log every contact.
-
-Connection request policy:
-
-- Default to no note.
-- Stop on LinkedIn-side blocks, rate limits, CAPTCHA, or suspicious behavior warnings.
-
-## 15. Referral Deadline Enforcement
-
-Function:
-
-```text
-enforce_referral_deadlines(today, tracker_rows)
-```
-
-Rules:
-
-- `Referral Needed=NO`: `Referral Status=Not Needed`.
-- `Outreach Pending` past deadline: mark `No Referral`, eligible to apply.
-- `Connection Pending` past deadline: mark `No Referral`, eligible to apply.
-- `Outreach Sent` past deadline: mark `No Referral`, eligible to apply.
-- `Declined`: eligible to apply.
-- `Got Referral`: eligible to apply.
-
-Default:
-
-- `Referral Deadline=Discovered Date + 5 days`.
-
-## 16. Daily Orchestrator
-
-User invokes:
-
-```text
-jobs daily
-```
-
-Sequence:
+Daily orchestrator:
 
 1. Preflight.
 2. Check.
 3. Apply ready jobs.
-4. Referral orchestrator.
+4. Referral orchestrator:
+   - Handle replies.
+   - Send referral materials.
+   - Send follow-ups.
+   - Check pending acceptances.
+   - Run new outreach.
 5. Find jobs.
 6. Instant-apply newly found no-referral jobs.
-7. Commit.
-8. Final summary.
+7. Commit if in a git repo.
+8. Summary.
 
-Details:
+No separate add/update.
 
-- Empty tracker: skip check details and start with find.
-- Apply ready jobs before referral to clear old ready queue.
-- Referral may create newly ready jobs; those are summarized and can be picked up in the next apply sweep or same-run if the user approves extending the run.
-- Newly found no-referral jobs are instant-apply candidates in the same run.
-- Commit only at the end.
+### 5.11 `writing-style.md`
 
-## 17. Commit Design
+Generic writing rules:
 
-If git repo:
+- No fabricated experience.
+- Outgoing messages should sound like the user.
+- Avoid AI tells.
+- Avoid saying "tailored resume" to contacts.
+- Use first person for user-sent messages.
+- Use concise referral and follow-up language.
+- Let the user approve externally visible messages.
+
+Do not include private wording from the old private workspace.
+
+### 5.12 `workspace-files.md`
+
+Define file layout:
 
 ```text
-daily YYYY-MM-DD: <summary>
-
-Applied:
-- Company: Role via method
-
-Referral:
-- Company: outcome
-
-New jobs:
-- Company: Role [Priority]
-
-Outreach:
-- Company: N DMs, M connection requests
-
-Generated:
-- applications/<folder>/
+job_tracker.csv
+resumes/
+base_resumes/
+profile/
+applications/
+outreach/
 ```
 
-If not git repo:
+Include file creation rules and privacy defaults.
 
-- Skip commit.
-- Print: `No git repo detected, commit skipped.`
+## 6. Templates
 
-Never force-add ignored private data.
+Templates should be plain files the agent can copy or recreate by reading instructions.
 
-## 18. README Work
+### 6.1 `templates/job_tracker.csv`
 
-Create root/plugin README from template.
+Header only.
 
-Must include:
+### 6.2 `templates/.gitignore`
 
-- What the plugin does.
-- Installation.
-- Workspace setup.
-- Chrome extension setup.
-- Required file URL access toggle.
-- Resume backend choices.
-- Tracker schema.
-- Daily workflow.
-- Referral orchestrator.
-- Application flow.
-- Privacy defaults.
-- Approval gates.
-- Troubleshooting.
+Privacy-first defaults:
 
-Important README language:
+```gitignore
+# Personal data
+resumes/*
+!resumes/README.md
+profile/*
+!profile/*.example.*
+base_resumes/*
+!base_resumes/README.md
 
-- "If you use LaTeX, the plugin can tailor `.tex` and compile PDFs."
-- "If you use DOCX or Markdown/HTML, choose that backend during setup."
-- "If you only have a PDF, the plugin can apply with it, but true tailoring requires editable source."
+# Generated/private job-search state
+applications/
+outreach/*.md
+!outreach/README.md
 
-## 19. Testing Plan
+# Local app/editor noise
+.DS_Store
+.vscode/
+.idea/
+```
 
-### 19.1 Static Tests
+### 6.3 `templates/README.md`
 
-- Validate plugin manifest JSON.
-- Validate marketplace JSON if present.
-- Validate tracker template header.
-- Validate `.gitignore` template includes private paths.
-- Validate skill file references existing relative files.
+Workspace README for users:
 
-### 19.2 Unit Tests
+- What this workspace is.
+- How to add resume materials.
+- How to choose resume backend.
+- How to enable Chrome extension file URL access.
+- How to run `jobs daily`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`.
+- Privacy explanation.
 
-Tracker:
+### 6.4 `templates/profile/personal_info.example.json`
 
-- Schema validation.
-- Deduping.
-- Ready-to-apply queue.
-- Referral deadline enforcement.
-- Follow-up queue.
+Generic fields only:
 
-Files:
+- Full name.
+- Email.
+- Phone.
+- Location.
+- LinkedIn URL.
+- Portfolio/GitHub URL.
+- Work authorization.
+- Sponsorship.
+- Salary expectations.
+- Notice period.
+- Relocation.
+- Remote/onsite preference.
+- Demographic disclosure preferences.
+- Other work preferences.
 
-- Folder name sanitizer.
-- Application folder creation.
-- No overwrite behavior.
+No real values.
 
-Resume:
+### 6.5 `templates/profile/screening_answers.example.md`
 
-- Backend detection.
-- LaTeX render happy path.
-- Missing dependency error.
-- PDF-only fallback.
+Sections:
 
-Memory:
+- Standing answers.
+- Saved custom answers.
+- Company-specific notes.
 
-- Screening answer lookup.
-- Add new answer.
-- Promote work preference.
+No real values.
 
-### 19.3 Integration Tests
+## 7. Prompt-Only Workflow Details
 
-- Initialize empty workspace.
-- Run check on empty tracker.
-- Ingest a pasted job link through find/intake.
-- Create no-referral job and instant apply dry run.
-- Create referral-needed job and run referral dry run.
-- Tailor sample LaTeX resume and compile.
-- Upload smoke test with Chrome extension file URL access enabled.
+### 7.1 Setup
 
-### 19.4 Manual Browser Tests
+When the user asks to set up:
 
-- LinkedIn profile verification.
-- LinkedIn job search.
-- LinkedIn Easy Apply file upload.
-- External ATS file upload.
-- LinkedIn referral message with attachment.
-- Email referral with attachment.
+1. Inspect current folder.
+2. Create missing template files directly.
+3. Ask which resume backend they use.
+4. Ask for resume files or paths.
+5. Ensure `.gitignore` protects private data.
+6. Walk the user through Chrome extension file URL access.
+7. Verify tracker header.
 
-## 20. Implementation Phases
+No setup script.
 
-### Phase 0: Docs and Scaffold
+### 7.2 Check
 
-- Add plugin scaffold.
-- Add plugin manifest.
-- Add marketplace entry if desired.
-- Add skill skeleton.
-- Add templates.
-- Add README draft.
+When the user asks to check:
 
-Deliverable:
+1. Read tracker.
+2. Render dashboard.
+3. Surface queues.
+4. Suggest next action.
 
-- Installable plugin shell.
+No dashboard code.
 
-### Phase 1: Workspace and Tracker
+### 7.3 Find
 
-- Implement workspace init.
-- Implement tracker schema validation.
-- Implement dashboard.
-- Implement ready-to-apply and referral-deadline queues.
+When the user asks to find or provides a job link:
 
-Deliverable:
+1. Read resume/search profile.
+2. Search or inspect supplied link.
+3. Score jobs.
+4. Add accepted rows to tracker.
+5. Mark referral fields.
+6. Return instant-apply candidates.
 
-- `jobs setup` and `jobs check`.
+No add command.
 
-### Phase 2: Resume Backends
+### 7.4 Apply
 
-- Implement resume text extraction.
-- Implement LaTeX backend.
-- Implement Markdown/HTML backend.
-- Add PDF-only fallback.
-- Add backend setup docs.
+When the user asks to apply:
 
-Deliverable:
+1. Determine eligible jobs.
+2. Enforce referral deadline/status.
+3. Tailor/generate materials.
+4. Use browser to apply.
+5. Upload files through Chrome extension.
+6. Ask approval before submit.
+7. Update tracker and folders.
 
-- Tailored resume PDF generation for editable sources.
+No application automation code shipped by plugin.
 
-### Phase 3: Find Workflow
+### 7.5 Referral
 
-- Implement search profile reading.
-- Implement job discovery/intake.
-- Implement dedupe and scoring.
-- Implement referral-needed classification.
-- Write tracker rows from accepted findings.
+When the user asks referral:
 
-Deliverable:
+1. Run the orchestrator.
+2. Handle warm replies first.
+3. Use LinkedIn unless email explicitly requested.
+4. Send follow-ups.
+5. Continue outreach.
+6. Enforce deadlines.
 
-- `jobs find` with no standalone add command.
+No router subcommands.
 
-### Phase 4: Application Flow
+### 7.6 Daily
 
-- Implement application folder creation.
-- Implement JD capture.
-- Implement profile memory reads.
-- Implement standard field filling guidance.
-- Implement file upload via Codex Chrome extension.
-- Implement review and submit approval.
-- Update tracker after confirmed submission.
+When the user asks daily:
 
-Deliverable:
+1. Run check.
+2. Apply ready jobs.
+3. Run referral orchestrator.
+4. Find jobs.
+5. Instant-apply new no-referral jobs.
+6. Commit if possible.
 
-- `jobs apply`.
+## 8. Resume Backend Prompt Design
 
-### Phase 5: Referral Orchestrator
+The Markdown should tell Codex how to handle each backend without shipping code.
 
-- Implement outreach log format.
-- Implement warm reply classification.
-- Implement LinkedIn vs email routing rule.
-- Implement referral materials flow.
-- Implement follow-up nudges.
-- Implement connection acceptance checks.
-- Implement new outreach.
-- Implement deadline enforcement.
+### LaTeX
 
-Deliverable:
+- Look for editable `.tex` sources.
+- Copy the chosen source into the application folder.
+- Edit truthfully for the JD.
+- Run available local LaTeX command if present.
+- If unavailable, explain setup and ask user how to proceed.
 
-- `jobs referral` as orchestrator.
+### DOCX
 
-### Phase 6: Daily Orchestrator
+- Look for `.docx` source/template.
+- Use available document tools if present.
+- If exact editing/export is unavailable, draft content changes and ask the user whether to keep DOCX manual or convert to another backend.
 
-- Compose preflight, check, apply, referral, find, instant-apply, commit.
-- Add summary.
-- Add empty tracker behavior.
-- Add git/no-git handling.
+### Markdown/HTML
 
-Deliverable:
+- Use Markdown/HTML source where provided.
+- Edit source directly.
+- Render with available local/browser export tools.
+- If export is unavailable, produce source and ask user to export manually.
 
-- `jobs daily`.
+### Existing PDF Only
 
-### Phase 7: Hardening
+- Use PDF as application attachment.
+- Extract profile/search signals where possible.
+- Do not claim it is tailored.
+- Explain that editable source is needed for full tailoring.
 
-- Add tests.
-- Add sample workspaces.
-- Add browser verification checklist.
-- Improve ATS adapters.
-- Refine resume backend docs.
+## 9. Referral Orchestrator Prompt Design
 
-Deliverable:
+The referral file should be especially detailed because this replaces multiple commands.
 
-- v1 candidate.
+It should define queues:
 
-## 21. Migration Notes from Existing Repos
+- Warm replies.
+- Agreed-to-refer contacts.
+- Email-requested referrals.
+- LinkedIn-materials-needed referrals.
+- Stale follow-ups.
+- Connection pending.
+- New outreach pending.
+- Deadline expired.
 
-From public repo:
+It should define state transitions:
 
-- Keep generic resume-driven identity.
-- Keep search profile.
-- Keep tracker schema.
-- Keep LinkedIn preflight concept.
-- Keep find/check/outreach baseline.
-- Keep privacy-first `.gitignore`.
+- `Outreach Pending` -> `Connection Pending`
+- `Outreach Pending` -> `Outreach Sent`
+- `Connection Pending` -> `Outreach Sent`
+- `Outreach Sent` -> `Got Referral`
+- `Outreach Sent` -> `Declined`
+- `Outreach Sent` -> `No Referral`
+- Any expired waiting state -> `No Referral`
 
-From private repo:
+It should define contact log format:
 
-- Bring over feature ideas only:
-  - Resume tailoring.
-  - Application flow.
-  - Persistent memory.
-  - Application folders.
-  - Warm replies.
-  - Referral email/message handling.
-  - Follow-up nudges.
-  - Deadline enforcement.
-  - Cover letters.
-  - Screening answer reuse.
-  - Daily orchestration.
+```markdown
+# Outreach - <Company>
 
-Do not bring over:
+| Date | Name | Title | LinkedIn URL | Relationship | Status | Notes |
+|---|---|---|---|---|---|---|
+```
 
-- Candidate identity.
-- Company/application history.
-- Private profile files.
-- Private contact logs.
-- Private resumes.
-- Standalone update.
-- Standalone add.
-- Claude-specific command structure.
+## 10. Daily Orchestrator Prompt Design
 
-## 22. Risks and Mitigations
+`daily.md` should be strict about sequence:
 
-Risk: ATS forms vary widely.
+```text
+preflight
+check
+apply ready jobs
+referral orchestrator
+find jobs
+instant apply no-referral jobs
+commit
+summary
+```
 
-Mitigation:
+The daily flow should not ask the user to choose internal subcommands. It can ask for approval before messages, uploads, application submissions, and ambiguous decisions.
 
-- Start with LinkedIn Easy Apply and generic form support.
-- Add ATS adapters incrementally.
+## 11. Approval Gates
 
-Risk: Resume tailoring differs by backend.
+Require explicit approval before:
 
-Mitigation:
+- Sending LinkedIn referral messages.
+- Sending emails.
+- Submitting applications.
+- Answering sensitive questions.
+- Uploading materials to a third-party site if the user has not reviewed the target.
+- Changing `.gitignore` to allow private data commits.
 
-- Define backend interface.
-- Ship LaTeX and Markdown/HTML first.
-- Treat DOCX as optional if dependency behavior is unstable.
+Do not require approval before:
 
-Risk: File upload blocked by extension settings.
+- Reading local files.
+- Creating local workspace files from templates.
+- Tailoring local resume source.
+- Rendering dashboard.
+- Preparing drafts.
+- Updating local logs after confirmed actions.
 
-Mitigation:
+## 12. Git Behavior
 
-- Make "Allow access to file URLs" mandatory in preflight.
-- Add smoke test.
-- Provide exact Chrome setup instructions.
+For daily:
 
-Risk: Plugin accidentally commits private data.
+- If the workspace is a git repo, inspect status.
+- Commit changed public/planned files and generated state only if not ignored.
+- Never force-add ignored private data.
+- If not a git repo, skip commit and say so.
 
-Mitigation:
+This behavior is described in Markdown only.
 
-- Strong `.gitignore` defaults.
-- Never force-add ignored paths.
-- Commit summaries only include paths and high-level outcomes.
+## 13. Manual Verification Plan
 
-Risk: No standalone add/update may frustrate users.
+Since v1 is prompt-first, verification is walkthrough-based rather than unit-test based.
 
-Mitigation:
+Check these manually:
 
-- Manual links are handled by find/intake.
-- Status changes are direct CSV edits or happen automatically through apply/referral.
+1. Plugin manifest is valid.
+2. Skill file references only existing Markdown/template files.
+3. No helper programs, shell automation files, or app source files exist in the plugin.
+4. Setup instructions create a sensible workspace.
+5. Tracker template has the exact schema.
+6. README explains Chrome file URL access.
+7. Resume backend docs explain LaTeX, DOCX, Markdown/HTML, and PDF-only paths.
+8. Referral is documented as one orchestrator.
+9. Daily sequence matches the requested order.
+10. No private user-specific data appears anywhere.
 
-## 23. Acceptance Criteria
+## 14. Implementation Phases
 
-- Plugin installs locally.
-- `jobs setup` initializes a clean workspace.
-- README explains Chrome file URL access and resume backend choices.
-- Tracker schema remains unchanged.
-- `jobs check` works on empty and populated trackers.
-- `jobs find` can add jobs without a separate add command.
-- `jobs apply` can create application folder, tailor/render resume, upload files, and update tracker.
-- `jobs referral` runs as an orchestrator and handles replies, emails/messages, follow-ups, outreach, and deadlines.
-- `jobs daily` runs the requested sequence.
-- No private user-specific data exists in the repo.
+### Phase 1: Plugin Skeleton
+
+- Create plugin folder.
+- Create manifest.
+- Create skill folder.
+- Create reference folder.
+- Create template folder.
+- Add marketplace entry only if needed.
+
+Output:
+
+- Installable prompt-first plugin shell.
+
+### Phase 2: Core Markdown Specs
+
+- Write `SKILL.md`.
+- Write `overview.md`.
+- Write `tracker-schema.md`.
+- Write `workspace-files.md`.
+- Write `writing-style.md`.
+
+Output:
+
+- Agent has global rules and data model.
+
+### Phase 3: Setup and Preflight Specs
+
+- Write `setup.md`.
+- Write `browser-preflight.md`.
+- Write template README and `.gitignore`.
+- Write profile/resume template docs.
+
+Output:
+
+- Agent can initialize a clean workspace from prompts.
+
+### Phase 4: Workflow Specs
+
+- Write `check.md`.
+- Write `find.md`.
+- Write `apply.md`.
+- Write `referral.md`.
+- Write `daily.md`.
+- Write `resume-backends.md`.
+
+Output:
+
+- Agent can run all requested workflows from Markdown.
+
+### Phase 5: Documentation Polish
+
+- Review for generic language.
+- Remove any accidental private references.
+- Remove any helper-program references.
+- Verify no add/update command exists.
+- Verify daily/referral designs match the requested order.
+
+Output:
+
+- v1 prompt-only plugin design ready for implementation.
+
+## 15. Acceptance Criteria
+
+- Repo contains a Codex plugin plan that is prompt-first.
+- No proposed helper program files.
+- No proposed shell automation files.
+- No standalone add/update workflows.
+- Referral is an orchestrator.
+- Daily flow is:
+  - check
+  - apply ready jobs
+  - referral
+  - find jobs
+  - instant-apply no-referral jobs
+  - commit
+- README/setup docs require enabling Chrome extension file URL access.
+- Resume backend docs offer LaTeX, DOCX, Markdown/HTML, and PDF-only options.
+- No user-specific private data.
