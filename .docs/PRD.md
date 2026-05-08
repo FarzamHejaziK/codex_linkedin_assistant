@@ -36,8 +36,8 @@ The plugin should work as a reusable local job-search operating system:
 
 - No user-specific content from any private workspace.
 - No hardcoded candidate name, spouse name, profile, email, resume details, target companies, or role specialization.
-- No standalone `/jobs add` command.
-- No standalone `/jobs update` command.
+- No standalone `jobs add` command.
+- No standalone `jobs update` command.
 - No migration of the private job corpus.
 - No committed resumes, outreach logs, profile files, application folders, or contacts in the plugin package.
 - No dedicated automation-limitation document copied from the private workflow.

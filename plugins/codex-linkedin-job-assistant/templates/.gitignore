@@ -1,0 +1,23 @@
+# macOS
+.DS_Store
+
+# Personal data
+resumes/*
+!resumes/README.md
+!resumes/search_profile.example.md
+profile/*
+!profile/*.example.*
+base_resumes/*
+!base_resumes/README.md
+
+# Generated/private job-search state
+applications/*
+!applications/README.md
+outreach/*.md
+!outreach/README.md
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*~

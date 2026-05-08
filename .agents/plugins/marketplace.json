@@ -1,0 +1,20 @@
+{
+  "name": "codex-linkedin-assistant",
+  "interface": {
+    "displayName": "Codex LinkedIn Assistant"
+  },
+  "plugins": [
+    {
+      "name": "codex-linkedin-job-assistant",
+      "source": {
+        "source": "local",
+        "path": "./plugins/codex-linkedin-job-assistant"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
