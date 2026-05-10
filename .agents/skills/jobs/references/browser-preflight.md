@@ -35,7 +35,7 @@ Do not tell the user "you do not have Chrome installed" or "you do not have the 
 
 Before declaring Chrome unavailable:
 
-1. If a Chrome skill or plugin is available in the current session, use it.
+1. Check the session's available skills/plugins list for Chrome. If `chrome:Chrome`, `Chrome`, or a Codex Chrome plugin/skill is listed, treat Chrome as available and use that skill/tool path.
 2. Try a lightweight Chrome connection check first, such as listing open tabs or opening/claiming a harmless tab.
 3. If the first connection check fails, wait briefly and retry once.
 4. If the Chrome skill reports extension/native-host/setup problems, follow the Chrome skill's repair guidance.
@@ -45,9 +45,10 @@ If Chrome-specific app tools are not exposed in the active Codex session:
 
 1. If tool discovery is available, search for the Chrome/Codex Chrome tool or skill before declaring it unavailable.
 2. If a Chrome skill is discovered, use that skill's connection checks before stopping.
-3. If Chrome still is not exposed or cannot communicate after the retry path, stop the workflow.
-4. Tell the user that the Codex Chrome extension/tool is not available to this session even if it may be installed on the computer.
-5. Walk the user through connecting it:
+3. Do not require or mention raw tool namespaces. In Codex, the Chrome skill being listed is enough reason to try the Chrome connection path.
+4. If Chrome still is not exposed or cannot communicate after the retry path, stop the workflow.
+5. Tell the user that the Codex Chrome extension/tool is not available to this session even if it may be installed on the computer.
+6. Walk the user through connecting it:
 
 ```text
 Codex -> Plugins -> Chrome

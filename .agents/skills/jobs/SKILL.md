@@ -44,6 +44,7 @@ If the user asks generally what this assistant does, how to start, what to do ne
 - At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
 - Do not substitute macOS Computer Use, screenshots, or generic browser automation for the Codex Chrome extension/tool during LinkedIn preflight. If Chrome-specific tools are not exposed, help the user connect/install them and stop the workflow.
 - Do not mention `mcp__chrome`, MCP namespaces, or Claude-style tool namespaces in user-facing messages. Use Codex terms: Chrome skill/tool, Codex Chrome extension, and active Codex session.
+- If the available skills/plugins list includes Chrome, treat that as a Chrome path to try. Do not stop at preflight before invoking the Chrome skill/tool connection checks.
 - There is no standalone `jobs add` workflow. Manual job links are handled by `jobs find`.
 - There is no standalone `jobs update` workflow. Status changes happen through workflow outcomes or direct CSV edits by the user.
 - Never invent resume experience, credentials, metrics, companies, dates, or personal details.
