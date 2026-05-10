@@ -10,6 +10,8 @@ If no real resume exists yet, route to `setup.md` resume intake first. The Linke
 
 LinkedIn preflight must use the Codex Chrome extension/tool path. Generic browser control, macOS Computer Use, screenshots, or manual observation do not count as a passing preflight.
 
+Use Codex-facing terminology. Do not mention `mcp__chrome`, MCP namespaces, or Claude-style tool namespaces in user-facing messages. Do not use the absence of an `mcp__chrome...` namespace as evidence in Codex. In Codex, talk about the Chrome skill/tool, the Codex Chrome extension, and whether the active session exposes Chrome.
+
 There are two separate requirements:
 
 1. The Codex Chrome Extension is installed/enabled in Chrome.
