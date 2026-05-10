@@ -29,11 +29,11 @@ Before acting, read only the references needed for the user's intent:
 | User intent | References to read |
 |---|---|
 | `jobs setup` | `references/setup.md`, `references/workspace-files.md`, `references/browser-preflight.md`, `references/resume-backends.md` |
-| `jobs check` | `references/tracker-schema.md`, `references/check.md` |
+| `jobs check` | `references/tracker-schema.md`, `references/check.md`, `references/browser-preflight.md` |
 | `jobs find` | `references/tracker-schema.md`, `references/find.md`, `references/browser-preflight.md`, `references/writing-style.md` |
 | `jobs apply` | `references/tracker-schema.md`, `references/apply.md`, `references/resume-backends.md`, `references/browser-preflight.md`, `references/writing-style.md` |
 | `jobs referral` | `references/tracker-schema.md`, `references/referral.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, plus each referenced workflow as it runs |
+| `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, `references/browser-preflight.md`, plus each referenced workflow as it runs |
 
 If the user asks generally what this assistant does, how to start, what to do next, or appears to be in first-run onboarding, read `references/overview.md` and `references/setup.md`.
 
@@ -41,6 +41,7 @@ If the user asks generally what this assistant does, how to start, what to do ne
 
 - `job_tracker.csv` is the source of truth for job state.
 - Keep the tracker schema exactly as defined in `references/tracker-schema.md`.
+- At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm Codex can connect to Chrome, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
 - There is no standalone `jobs add` workflow. Manual job links are handled by `jobs find`.
 - There is no standalone `jobs update` workflow. Status changes happen through workflow outcomes or direct CSV edits by the user.
 - Never invent resume experience, credentials, metrics, companies, dates, or personal details.

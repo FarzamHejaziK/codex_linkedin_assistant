@@ -90,7 +90,7 @@ Move the existing Markdown workflow references to `.agents/skills/jobs/reference
 
 - `setup.md`: workspace setup and file URL preflight.
 - `tracker-schema.md`: schema and canonical values.
-- `browser-preflight.md`: Codex browser/LinkedIn/upload readiness.
+- `browser-preflight.md`: mandatory startup Chrome connection and LinkedIn profile-match checks, plus upload readiness.
 - `resume-backends.md`: LaTeX, DOCX, Markdown/HTML, PDF-only.
 - `check.md`: dashboard.
 - `find.md`: discovery and manual-link intake.

@@ -80,6 +80,10 @@ Canonical values:
 
 ## 6. Core Workflows
 
+### Startup Preflight
+
+Every operational `jobs ...` workflow starts by confirming Codex can connect to Chrome, opening LinkedIn, and checking that the active LinkedIn profile name matches the name extracted from the user's resume. If the resume is missing, setup must run resume intake before profile matching. If Chrome is unavailable, LinkedIn is logged out, or the profile name does not match, the workflow stops and asks the user to correct the issue before continuing.
+
 ### Setup
 
 `jobs setup` verifies workspace files, tracker schema, resume presence, application-memory examples, privacy defaults, resume backend choice, and browser preflight. If no real resume is present, setup must pause and ask the user to attach/upload a resume, paste an absolute local file path, or drag/copy the file into `resumes/`. After resume intake, setup should ask onboarding questions and create `resumes/search_profile.md`, `profile/personal_info.json`, and `profile/screening_answers.md` for the user instead of telling the user to create those files manually.

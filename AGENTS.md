@@ -39,10 +39,11 @@ Use these when changing the assistant itself.
 3. Keep private user data local and gitignored by default.
 4. Never fabricate resume experience, credentials, metrics, companies, dates, or personal details.
 5. Ask for explicit approval before sending messages, sending emails, submitting applications, or answering sensitive/ambiguous screening questions.
-6. There is no standalone `jobs add`; manual job links go through `jobs find`.
-7. There is no standalone `jobs update`; status changes happen through workflow outcomes or direct CSV edits.
-8. Referral is an orchestrator, not a router.
-9. This repo is prompt-first. Do not add helper programs, automation scripts, app code, or custom renderers for v1.
+6. At the start of every operational `jobs ...` workflow, confirm Codex can connect to Chrome and the active LinkedIn profile matches the resume name. If the resume is missing, do resume intake first.
+7. There is no standalone `jobs add`; manual job links go through `jobs find`.
+8. There is no standalone `jobs update`; status changes happen through workflow outcomes or direct CSV edits.
+9. Referral is an orchestrator, not a router.
+10. This repo is prompt-first. Do not add helper programs, automation scripts, app code, or custom renderers for v1.
 
 ## Key Files
 

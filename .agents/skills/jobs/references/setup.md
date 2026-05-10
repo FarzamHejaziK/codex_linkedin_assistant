@@ -16,7 +16,7 @@ Use this when the user asks for `jobs setup`, opens a new workspace, or a requir
 7. Help the user choose a resume backend: LaTeX, DOCX, Markdown/HTML, or PDF-only.
 8. Ask onboarding questions and create missing setup files for the user.
 9. Verify `job_tracker.csv` has the exact schema.
-10. Run browser preflight before browser-dependent workflows.
+10. Run startup browser preflight: confirm Chrome connection and LinkedIn profile match.
 
 ## Resume Intake Gate
 
