@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="600" alt="Codex LinkedIn Assistant" />
+</p>
+
 # Codex LinkedIn Assistant
 
 <p align="center">
@@ -146,6 +150,8 @@ Codex_Linkedlin_assistant/
 ├── SECURITY.md
 ├── job_tracker.csv
 ├── .gitignore
+├── assets/
+│   └── logo.png
 ├── .github/
 │   ├── CODEOWNERS
 │   └── PULL_REQUEST_TEMPLATE.md
