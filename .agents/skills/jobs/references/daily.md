@@ -31,7 +31,9 @@ Run the full referral orchestrator after the first apply sweep. Referral may pro
 
 ## Find And Instant Apply
 
-Run `jobs find`. Any newly added row with `Referral Needed=NO` is an instant-apply candidate in the same daily run.
+Run `jobs find` with its LinkedIn-in-Chrome search pass first. General web search and company job boards are supplemental; they do not replace the LinkedIn search pass unless LinkedIn/Chrome is blocked and the user approves continuing without LinkedIn.
+
+Any newly added row with `Referral Needed=NO` is an instant-apply candidate in the same daily run.
 
 ## Commit
 

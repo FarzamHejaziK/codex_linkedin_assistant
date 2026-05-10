@@ -176,7 +176,7 @@ Codex_Linkedlin_assistant/
 |---|---|
 | `jobs setup` | Verifies workspace files, tracker schema, resume intake, resume backend, and browser preflight |
 | `jobs check` | Shows dashboard, deadlines, ready-to-apply jobs, and outreach queues |
-| `jobs find` | Discovers jobs or intakes a pasted job link, then adds qualified rows |
+| `jobs find` | Searches LinkedIn Jobs in Chrome first, supplements with web/company boards, or intakes a pasted job link |
 | `jobs referral` | Handles replies, referral materials, email-vs-LinkedIn decisions, follow-ups, outreach, and deadlines |
 | `jobs apply` | Prepares materials, tailors resume when possible, fills forms, uploads files, and submits after approval |
 | `jobs daily` | Runs the daily sequence and commits at the end when appropriate |

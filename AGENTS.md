@@ -43,10 +43,11 @@ Use these when changing the assistant itself.
 7. Do not substitute macOS Computer Use, screenshots, or generic browser automation for the Codex Chrome extension/tool during LinkedIn preflight. If Chrome-specific tools are not exposed, help the user connect/install them and stop the workflow.
 8. Do not mention `mcp__chrome`, MCP namespaces, or Claude-style tool namespaces in user-facing messages. Use Codex terms: Chrome skill/tool, Codex Chrome extension, and active Codex session.
 9. If the available skills/plugins list includes Chrome, treat that as a Chrome path to try. Do not stop at preflight before invoking Chrome skill/tool connection checks.
-10. There is no standalone `jobs add`; manual job links go through `jobs find`.
-11. There is no standalone `jobs update`; status changes happen through workflow outcomes or direct CSV edits.
-12. Referral is an orchestrator, not a router.
-13. This repo is prompt-first. Do not add helper programs, automation scripts, app code, or custom renderers for v1.
+10. `jobs find` must run LinkedIn Jobs search in Chrome first after preflight. Web search and company boards are supplemental unless LinkedIn/Chrome is blocked and the user approves continuing without LinkedIn.
+11. There is no standalone `jobs add`; manual job links go through `jobs find`.
+12. There is no standalone `jobs update`; status changes happen through workflow outcomes or direct CSV edits.
+13. Referral is an orchestrator, not a router.
+14. This repo is prompt-first. Do not add helper programs, automation scripts, app code, or custom renderers for v1.
 
 ## Key Files
 

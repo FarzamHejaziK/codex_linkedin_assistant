@@ -35,7 +35,28 @@ When the resume and search profile conflict, the search profile wins.
 
 ## Discovery
 
-Use available browser and web tools to find recent jobs. For LinkedIn, prefer searches scoped to recent postings and target locations. For manual intake, inspect the supplied URL and extract job details from that page.
+Use LinkedIn in Chrome as the primary discovery source after browser preflight passes. Do not skip LinkedIn search and satisfy `jobs find` only with general web search unless LinkedIn/Chrome preflight is blocked or the user explicitly asks to avoid LinkedIn.
+
+Run LinkedIn job searches for the inferred target titles and target locations. Prefer recent postings and filter/sort for relevance, recency, and target location when available.
+
+Use web search and direct company job-board pages as supplemental sources after the LinkedIn search pass, or as fallback sources when LinkedIn/Chrome is blocked and the user approves continuing without LinkedIn.
+
+For manual intake, inspect the supplied URL and extract job details from that page.
+
+## LinkedIn Search Pass
+
+For each `jobs find` run:
+
+1. Complete startup preflight from `browser-preflight.md`.
+2. Open LinkedIn Jobs in Chrome.
+3. Search 2-4 target title queries inferred from the resume/search profile.
+4. Apply location/remote filters from `resumes/search_profile.md` when available.
+5. Prefer recent postings, such as past 24 hours or past week, when the result volume allows it.
+6. Inspect enough results to collect qualified candidates, not just the first page title list.
+7. Capture the canonical LinkedIn job URL or the apply URL when LinkedIn redirects to a company site.
+8. Deduplicate against `job_tracker.csv`.
+
+If LinkedIn search cannot run, say why clearly and ask whether to continue with web/company-board search only. Do not silently replace LinkedIn search with web search.
 
 Extract:
 

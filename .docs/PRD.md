@@ -94,7 +94,7 @@ Every operational `jobs ...` workflow starts by confirming the Codex Chrome exte
 
 ### Find
 
-`jobs find` reads resume(s) and optional `resumes/search_profile.md`, searches LinkedIn/web or intakes a pasted job link, dedupes against the tracker, scores candidates, and adds qualified rows. There is no separate add workflow.
+`jobs find` reads resume(s) and optional `resumes/search_profile.md`, runs a LinkedIn Jobs search pass in Chrome as the primary discovery source, optionally supplements with web/company-board search, or intakes a pasted job link. It dedupes against the tracker, scores candidates, and adds qualified rows. There is no separate add workflow. It must not silently replace LinkedIn search with web search; if LinkedIn/Chrome is blocked, it asks whether to continue with web/company-board sources only.
 
 ### Referral
 
