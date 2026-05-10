@@ -99,6 +99,49 @@ The assistant is built around local files:
 
 There is no database. Open the CSV and folders to inspect the current state.
 
+## Repository Structure
+
+```text
+Codex_Linkedlin_assistant/
+├── AGENTS.md
+├── README.md
+├── REQUIREMENTS.md
+├── job_tracker.csv
+├── .gitignore
+├── .docs/
+│   ├── PRD.md
+│   └── plan.md
+├── .agents/
+│   └── skills/
+│       └── jobs/
+│           ├── SKILL.md
+│           └── references/
+│               ├── apply.md
+│               ├── browser-preflight.md
+│               ├── check.md
+│               ├── daily.md
+│               ├── find.md
+│               ├── overview.md
+│               ├── referral.md
+│               ├── resume-backends.md
+│               ├── setup.md
+│               ├── tracker-schema.md
+│               ├── workspace-files.md
+│               └── writing-style.md
+├── resumes/
+│   ├── README.md
+│   └── search_profile.example.md
+├── profile/
+│   ├── personal_info.example.json
+│   └── screening_answers.example.md
+├── base_resumes/
+│   └── README.md
+├── applications/
+│   └── README.md
+└── outreach/
+    └── README.md
+```
+
 ## Workflows
 
 | Intent | What it does |
