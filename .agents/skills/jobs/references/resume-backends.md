@@ -1,6 +1,6 @@
 # Resume Backends
 
-Users may use different resume sources. Support the user's chosen workflow without shipping renderer code in the plugin.
+Users may use different resume sources. Support the user's chosen workflow without shipping renderer code in the repo.
 
 ## Backends
 

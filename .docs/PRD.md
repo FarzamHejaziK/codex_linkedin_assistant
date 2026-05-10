@@ -4,7 +4,7 @@
 
 Build a generic repo-first Codex assistant for managing a local job-search workflow from discovery through referral outreach, resume tailoring, application submission, follow-up, and tracking.
 
-The user opens this repository directly in Codex. Codex reads `AGENTS.md`, then uses the project-local skill at `.agents/skills/jobs/SKILL.md` and its Markdown references. The product should behave like a normal workspace repo, not as an installable package.
+The user opens this repository directly in Codex. Codex reads `AGENTS.md`, then uses the project-local skill at `.agents/skills/jobs/SKILL.md` and its Markdown references. The product should behave like a normal workspace repo, not as an installable bundle.
 
 The assistant should:
 

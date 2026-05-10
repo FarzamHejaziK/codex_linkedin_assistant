@@ -1,6 +1,6 @@
 # Overview
 
-This plugin turns a local folder into a job-search workspace managed by Codex. It is generic and user-configurable. It must not assume a specific candidate, role, company list, location, email, resume format, or application history.
+This assistant turns a local folder into a job-search workspace managed by Codex. It is generic and user-configurable. It must not assume a specific candidate, role, company list, location, email, resume format, or application history.
 
 ## Core Model
 
@@ -22,4 +22,4 @@ This plugin turns a local folder into a job-search workspace managed by Codex. I
 
 ## Runtime Expectations
 
-This plugin ships prompts and templates only. Use Codex's active local tools, browser tools, and available user-local programs as needed. If a required runtime capability is unavailable, explain the blocker and offer the smallest manual handoff.
+This repo ships prompts and templates only. Use Codex's active local tools, browser tools, and available user-local programs as needed. If a required runtime capability is unavailable, explain the blocker and offer the smallest manual handoff.

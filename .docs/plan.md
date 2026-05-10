@@ -108,7 +108,7 @@ After implementation:
 - Confirm `.agents/skills/jobs/SKILL.md` and references exist.
 - Confirm root `AGENTS.md`, `README.md`, `REQUIREMENTS.md`, `.gitignore`, and `job_tracker.csv` exist.
 - Confirm `job_tracker.csv` header exactly matches the schema.
-- Search for stale package metadata terms and remove them.
+- Search for stale metadata terms from the previous architecture and remove them.
 - Search for stale assistant-source terms and private user strings.
 - Confirm no real resume/profile/outreach/application data is committed.
 - Confirm no `.py`, `.sh`, `.js`, `.ts`, or app-code files exist.
@@ -118,7 +118,7 @@ After implementation:
 Commit with:
 
 ```text
-repo: convert plugin package to Codex workspace assistant
+repo: finalize Codex workspace assistant
 ```
 
 Then push `main` to `origin`.

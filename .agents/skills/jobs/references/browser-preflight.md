@@ -21,4 +21,4 @@ Run this before workflows that need LinkedIn, email, application forms, or file 
 
 ## Upload Policy
 
-This plugin may upload local resume and cover-letter files through the Codex Chrome extension after preflight passes. Still require explicit user approval before sending messages, sending emails, or submitting applications.
+This assistant may upload local resume and cover-letter files through the Codex Chrome extension after preflight passes. Still require explicit user approval before sending messages, sending emails, or submitting applications.
