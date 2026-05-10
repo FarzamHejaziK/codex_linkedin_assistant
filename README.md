@@ -2,12 +2,6 @@
   <img src="assets/logo-animation.gif" width="600" alt="Codex LinkedIn Assistant" />
 </p>
 
-# Codex LinkedIn Assistant
-
-<p align="center">
-  <strong>A Codex assistant for LinkedIn.</strong>
-</p>
-
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
   <img alt="Codex App" src="https://img.shields.io/badge/Codex%20App-Ready-111827">
