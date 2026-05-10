@@ -5,10 +5,13 @@
 </p>
 
 <p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
   <img alt="Codex App" src="https://img.shields.io/badge/Codex%20App-Ready-111827">
   <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-via%20Codex%20Chrome-0A66C2?logo=linkedin&logoColor=white">
   <img alt="Prompt First" src="https://img.shields.io/badge/Prompt--First-Markdown-blue">
+  <a href="CONTRIBUTING.md"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
   <img alt="Maintained" src="https://img.shields.io/badge/Maintained-yes-success">
+  <a href="SECURITY.md"><img alt="Security policy" src="https://img.shields.io/badge/Security-policy-blue"></a>
   <img alt="Privacy" src="https://img.shields.io/badge/Private%20Data-local%20only-success">
 </p>
 
@@ -18,7 +21,8 @@
   <a href="#how-it-works"><strong>How it works</strong></a> ·
   <a href="#what-it-does"><strong>What it does</strong></a> ·
   <a href="#daily-flow"><strong>Daily flow</strong></a> ·
-  <a href="#privacy"><strong>Privacy</strong></a>
+  <a href="#privacy"><strong>Privacy</strong></a> ·
+  <a href="#contributing"><strong>Contributing</strong></a>
 </p>
 
 A Codex assistant for LinkedIn. Track jobs in a single CSV, discover openings via LinkedIn + web search, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
@@ -26,6 +30,8 @@ A Codex assistant for LinkedIn. Track jobs in a single CSV, discover openings vi
 > **Scope on purpose:** Codex handles the repetitive organization, drafting, browser navigation, and file preparation. You approve anything externally visible or judgment-heavy: messages, emails, uploads, applications, sensitive screening answers, and final submissions.
 
 This is intentionally prompt-first: Markdown instructions and local files, no helper programs or hidden services.
+
+Looking for the Claude Code version? See [claude-linkedin-assistant](https://github.com/FarzamHejaziK/claude-linkedin-assistant).
 
 ## Prerequisites
 
@@ -132,10 +138,17 @@ At the start of every operational `jobs ...` workflow, Codex should confirm the 
 ```text
 Codex_Linkedlin_assistant/
 ├── AGENTS.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── MAINTAINERS.md
 ├── README.md
 ├── REQUIREMENTS.md
+├── SECURITY.md
 ├── job_tracker.csv
 ├── .gitignore
+├── .github/
+│   ├── CODEOWNERS
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── .docs/
 │   ├── PRD.md
 │   └── plan.md
@@ -227,7 +240,23 @@ Private files are ignored by default:
 
 Do not commit private job-search data unless you intentionally change `.gitignore`.
 
+## Contributing
+
+Pull requests only. Direct pushes to `main` should be blocked on the public project.
+
+- See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow.
+- See [`MAINTAINERS.md`](MAINTAINERS.md) for the approval model.
+- For security reports, see [`SECURITY.md`](SECURITY.md) and do not open a public Issue.
+
 ## Design Docs
 
 - `.docs/PRD.md`
 - `.docs/plan.md`
+
+## Related
+
+- Claude Code version: [claude-linkedin-assistant](https://github.com/FarzamHejaziK/claude-linkedin-assistant)
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).

@@ -19,8 +19,15 @@ Use this structure:
 AGENTS.md
 README.md
 REQUIREMENTS.md
+CONTRIBUTING.md
+LICENSE
+MAINTAINERS.md
+SECURITY.md
 job_tracker.csv
 .gitignore
+.github/
+  CODEOWNERS
+  PULL_REQUEST_TEMPLATE.md
 .docs/
   PRD.md
   plan.md
@@ -82,6 +89,7 @@ Root files replace templates:
 - `.gitignore` protects private search data.
 - `README.md` explains installation-free Codex usage.
 - `REQUIREMENTS.md` explains Codex, Chrome, file URL access, git, optional resume tooling, and CSV editors.
+- `CONTRIBUTING.md`, `LICENSE`, `SECURITY.md`, `MAINTAINERS.md`, and `.github/` provide public-repo governance matching the Claude assistant pattern.
 - Folder README/example files explain how each workspace area is used.
 
 ## 6. Workflow References
@@ -107,6 +115,7 @@ After implementation:
 - Confirm there is no package-only structure or marketplace metadata.
 - Confirm `.agents/skills/jobs/SKILL.md` and references exist.
 - Confirm root `AGENTS.md`, `README.md`, `REQUIREMENTS.md`, `.gitignore`, and `job_tracker.csv` exist.
+- Confirm public-repo governance files exist: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `MAINTAINERS.md`, `.github/CODEOWNERS`, and `.github/PULL_REQUEST_TEMPLATE.md`.
 - Confirm `job_tracker.csv` header exactly matches the schema.
 - Search for stale metadata terms from the previous architecture and remove them.
 - Search for stale assistant-source terms and private user strings.

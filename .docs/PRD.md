@@ -129,6 +129,7 @@ Codex must never force-add ignored private data.
 - The repo can be opened directly in Codex and understood through `AGENTS.md`.
 - `.agents/skills/jobs/SKILL.md` exists and routes all job intents to reference docs.
 - Root README explains setup, workflows, browser file access, resume backends, privacy, and tracker schema.
+- Public-repo governance files exist: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `MAINTAINERS.md`, `.github/CODEOWNERS`, and `.github/PULL_REQUEST_TEMPLATE.md`.
 - No package-only structure remains.
 - No app/helper/script files are introduced.
 - No private user-specific data is committed.
