@@ -1,28 +1,31 @@
-# Codex LinkedIn Job Assistant
+# Codex LinkedIn Assistant
 
 <p align="center">
-  <strong>A repo-first Codex assistant for running a complete local job-search workflow.</strong>
+  <strong>A Codex assistant for LinkedIn.</strong>
 </p>
 
 <p align="center">
-  <img alt="Codex Ready" src="https://img.shields.io/badge/Codex-Ready-111827">
-  <img alt="Prompt First" src="https://img.shields.io/badge/Prompt--First-Markdown-blue">
+  <img alt="Codex App" src="https://img.shields.io/badge/Codex%20App-Ready-111827">
   <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-via%20Codex%20Chrome-0A66C2?logo=linkedin&logoColor=white">
-  <img alt="Privacy" src="https://img.shields.io/badge/Private%20Data-Local%20Only-success">
+  <img alt="Prompt First" src="https://img.shields.io/badge/Prompt--First-Markdown-blue">
+  <img alt="Maintained" src="https://img.shields.io/badge/Maintained-yes-success">
+  <img alt="Privacy" src="https://img.shields.io/badge/Private%20Data-local%20only-success">
 </p>
 
 <p align="center">
   <a href="#prerequisites"><strong>Prerequisites</strong></a> ·
   <a href="#quick-start"><strong>Quick Start</strong></a> ·
-  <a href="#how-it-works"><strong>How It Works</strong></a> ·
-  <a href="#workflows"><strong>Workflows</strong></a> ·
-  <a href="#daily-flow"><strong>Daily Flow</strong></a> ·
+  <a href="#how-it-works"><strong>How it works</strong></a> ·
+  <a href="#what-it-does"><strong>What it does</strong></a> ·
+  <a href="#daily-flow"><strong>Daily flow</strong></a> ·
   <a href="#privacy"><strong>Privacy</strong></a>
 </p>
 
-This is a normal repository you open directly in Codex. It tracks jobs in a CSV, reads your resume and search preferences, orchestrates referrals, prepares application materials, remembers reusable screening answers, and guides applications through browser workflows.
+A Codex assistant for LinkedIn. Track jobs in a single CSV, discover openings via LinkedIn + web search, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
 
-It is intentionally prompt-first: Markdown instructions and local files, no helper programs or hidden services.
+> **Scope on purpose:** Codex handles the repetitive organization, drafting, browser navigation, and file preparation. You approve anything externally visible or judgment-heavy: messages, emails, uploads, applications, sensitive screening answers, and final submissions.
+
+This is intentionally prompt-first: Markdown instructions and local files, no helper programs or hidden services.
 
 ## Prerequisites
 
@@ -102,7 +105,7 @@ Allow access to file URLs
 jobs setup
 ```
 
-## How It Works
+## How it works
 
 The assistant is built around local files:
 
@@ -159,7 +162,7 @@ Codex_Linkedlin_assistant/
     └── README.md
 ```
 
-## Workflows
+## What it does
 
 | Intent | What it does |
 |---|---|
@@ -172,7 +175,7 @@ Codex_Linkedlin_assistant/
 
 There is no standalone `jobs add` or `jobs update`.
 
-## Daily Flow
+## Daily flow
 
 ```text
 1. jobs check
