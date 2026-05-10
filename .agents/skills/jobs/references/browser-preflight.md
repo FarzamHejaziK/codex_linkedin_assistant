@@ -19,6 +19,18 @@ There are two separate requirements:
 
 The extension can be installed on the computer while the active Codex session still does not expose Chrome tools. In that case, the agent cannot complete LinkedIn preflight until the session is reconnected/reopened with Chrome available.
 
+## Explain The State Clearly
+
+When preflight fails, distinguish these states in plain language:
+
+- Extension not installed/enabled in Chrome.
+- Extension installed, but Chrome is closed or on the wrong Chrome profile.
+- Extension installed, but native host/setup communication is broken.
+- Chrome skill/tool exists in Codex, but the connection check failed.
+- Chrome skill/tool is not exposed to this Codex session at all.
+
+Do not tell the user "you do not have Chrome installed" or "you do not have the extension" unless the Chrome checks prove that. If the user says it is installed, acknowledge that and explain that the missing part may be session exposure or extension communication, not installation.
+
 ## Connection Attempt Order
 
 Before declaring Chrome unavailable:
@@ -45,6 +57,24 @@ Then restart this Codex session or reopen the repo and run the command again.
 ```
 
 Do not say "I will use Computer Use instead" for LinkedIn preflight. Computer Use may help explain where a setting is, but it is not the required Chrome connection check for this assistant.
+
+## User-Facing Failure Template
+
+If Chrome is installed but the workflow cannot get a working Chrome connection, say:
+
+```text
+I believe Chrome/the extension may be installed. The blocker is narrower: this Codex session does not currently have a working Chrome connection for me to use.
+
+I need the Codex Chrome skill/tool to pass preflight, because I have to verify the signed-in LinkedIn profile against the resume before running job workflows.
+
+Please check:
+1. Chrome is open in the profile where the Codex extension is installed.
+2. The Codex extension is enabled and says Connected.
+3. In Codex, go to Plugins -> Chrome and reconnect if needed.
+4. Reopen this repo/session and rerun the command.
+
+I will not use Computer Use as a workaround for LinkedIn preflight.
+```
 
 ## Startup Checks
 

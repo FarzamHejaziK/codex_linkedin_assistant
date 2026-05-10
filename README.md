@@ -125,7 +125,7 @@ The assistant is built around local files:
 
 There is no database. Open the CSV and folders to inspect the current state.
 
-At the start of every operational `jobs ...` workflow, Codex should confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile name matches the name on the resume. Installing the Chrome extension is not the same as exposing the Chrome tool to a Codex session; both have to be true. If Chrome-specific tools are not exposed after discovery/connection attempts, Codex should stop and help you reconnect Chrome instead of falling back to Computer Use. If the resume is missing, setup pauses for resume intake first.
+At the start of every operational `jobs ...` workflow, Codex should confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile name matches the name on the resume. Installing the Chrome extension is not the same as exposing a working Chrome connection to a Codex session; both have to be true. If Chrome-specific tools are not exposed or not communicating after discovery/connection attempts, Codex should explain the exact state and help you reconnect Chrome instead of falling back to Computer Use. If the resume is missing, setup pauses for resume intake first.
 
 ## Repository Structure
 
