@@ -12,12 +12,11 @@ Use this when the user asks for `jobs setup`, opens a new workspace, or a requir
    - Attach/upload the resume in Codex chat.
    - Paste the absolute local file path.
    - Drag/copy the file into `resumes/` and reply `done`.
-6. If the user provides an attachment or path, offer to copy it into `resumes/` and keep the original filename unless there is a collision.
+6. If the user provides an attachment or path, copy it into `resumes/` unless the user explicitly says not to. Keep the original filename unless there is a collision.
 7. Help the user choose a resume backend: LaTeX, DOCX, Markdown/HTML, or PDF-only.
-8. Create `profile/personal_info.json` from the example if missing.
-9. Create `profile/screening_answers.md` from the example if missing.
-10. Verify `job_tracker.csv` has the exact schema.
-11. Run browser preflight before browser-dependent workflows.
+8. Ask onboarding questions and create missing setup files for the user.
+9. Verify `job_tracker.csv` has the exact schema.
+10. Run browser preflight before browser-dependent workflows.
 
 ## Resume Intake Gate
 
@@ -33,10 +32,40 @@ Send it one of three ways:
 2. Paste the absolute file path, for example /Users/name/Desktop/resume.pdf.
 3. Drag the file into resumes/ and reply done.
 
-If you attach it or give me a path, I can copy it into resumes/ for you.
+If you attach it or give me a path, I will copy it into resumes/ for you.
 ```
 
 After the resume is present, continue setup from the remaining checklist.
+
+## Guided File Creation
+
+Do not tell the user to manually create setup files as the default path. Codex should ask questions and write the files itself.
+
+Create or update these files when missing:
+
+- `resumes/search_profile.md`
+- `profile/personal_info.json`
+- `profile/screening_answers.md`
+
+Ask only for information needed to make a useful first version. Keep the question batch short enough for the user to answer in one message:
+
+```text
+I can create the setup files for you. Answer what you know and leave anything blank:
+
+1. Target roles/titles:
+2. Locations or remote preference:
+3. Minimum or preferred compensation:
+4. Work authorization and sponsorship needs:
+5. Dealbreakers, such as industries, company stages, commute, travel, or role types:
+6. Preferred resume backend: LaTeX, DOCX, Markdown/HTML, or PDF-only:
+7. Basic application info I should remember: email, phone, LinkedIn URL, portfolio/GitHub URL, current location:
+```
+
+Use the resume to infer non-sensitive defaults when possible, then ask the user to confirm uncertain details. Do not fabricate anything. Leave unknown fields blank rather than guessing.
+
+For `profile/screening_answers.md`, seed reusable answers from the user's responses, such as work authorization, sponsorship, relocation, salary range, notice period, and remote/onsite preference. Do not invent answers for demographic disclosures or sensitive questions.
+
+After creating files, summarize what was created and what remains unknown. The next suggested action should be `jobs setup` again only when setup was blocked; otherwise suggest `jobs find` or `jobs daily` depending on readiness.
 
 ## Chrome Extension Setup
 

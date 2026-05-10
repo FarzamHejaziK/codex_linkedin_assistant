@@ -66,13 +66,13 @@ That file points to the project skill:
 
 ### 2. Add your resume
 
-Put one or more resume files in:
+Best path: attach/upload your resume in Codex chat during `jobs setup`, or paste its absolute local file path. Codex should copy it into `resumes/` for you.
+
+You can also put one or more resume files in:
 
 ```text
 resumes/
 ```
-
-Or let Codex do it during `jobs setup`: attach/upload the resume in chat, paste an absolute local file path, or drag the file into `resumes/` and reply `done`. If you attach it or provide a path, Codex can copy it into `resumes/` for you.
 
 Supported formats:
 
@@ -84,7 +84,9 @@ Supported formats:
 
 ### 3. Add search preferences
 
-Optional:
+Codex can create this for you during setup by asking about target roles, locations, salary, work authorization, sponsorship, and dealbreakers.
+
+Optional manual file:
 
 ```text
 resumes/search_profile.md
@@ -107,7 +109,7 @@ Allow access to file URLs
 jobs setup
 ```
 
-If no real resume is present yet, setup should pause and ask you to provide one before moving on to LinkedIn/profile verification or job discovery.
+If no real resume is present yet, setup should pause and ask you to upload one here, paste an absolute local path, or drag a file into `resumes/`. After that, Codex should ask onboarding questions and create the search/profile files itself.
 
 ## How it works
 

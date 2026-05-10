@@ -35,7 +35,7 @@ Before acting, read only the references needed for the user's intent:
 | `jobs referral` | `references/tracker-schema.md`, `references/referral.md`, `references/browser-preflight.md`, `references/writing-style.md` |
 | `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, plus each referenced workflow as it runs |
 
-If the user asks generally what this assistant does, read `references/overview.md`.
+If the user asks generally what this assistant does, how to start, what to do next, or appears to be in first-run onboarding, read `references/overview.md` and `references/setup.md`.
 
 ## Hard Rules
 
@@ -48,3 +48,4 @@ If the user asks generally what this assistant does, read `references/overview.m
 - Ask for explicit approval before sending messages, sending emails, submitting applications, or answering sensitive/ambiguous screening questions.
 - File uploads are allowed only after Codex browser access is ready and Chrome extension file URL access has been enabled.
 - Referral is an orchestrator, not a router.
+- First-run setup should be interactive. Do not tell the user to manually create profile/search files when Codex can ask questions and create them.
