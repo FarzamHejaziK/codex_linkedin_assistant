@@ -72,6 +72,8 @@ Put one or more resume files in:
 resumes/
 ```
 
+Or let Codex do it during `jobs setup`: attach/upload the resume in chat, paste an absolute local file path, or drag the file into `resumes/` and reply `done`. If you attach it or provide a path, Codex can copy it into `resumes/` for you.
+
 Supported formats:
 
 - `.pdf`
@@ -104,6 +106,8 @@ Allow access to file URLs
 ```text
 jobs setup
 ```
+
+If no real resume is present yet, setup should pause and ask you to provide one before moving on to LinkedIn/profile verification or job discovery.
 
 ## How it works
 
@@ -166,7 +170,7 @@ Codex_Linkedlin_assistant/
 
 | Intent | What it does |
 |---|---|
-| `jobs setup` | Verifies workspace files, tracker schema, resume backend, and browser preflight |
+| `jobs setup` | Verifies workspace files, tracker schema, resume intake, resume backend, and browser preflight |
 | `jobs check` | Shows dashboard, deadlines, ready-to-apply jobs, and outreach queues |
 | `jobs find` | Discovers jobs or intakes a pasted job link, then adds qualified rows |
 | `jobs referral` | Handles replies, referral materials, email-vs-LinkedIn decisions, follow-ups, outreach, and deadlines |

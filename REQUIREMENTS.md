@@ -67,7 +67,7 @@ Choose the backend that matches your resume source:
 
 ## First Run
 
-1. Add resume files to `resumes/`.
+1. Add resume files to `resumes/`, attach/upload a resume in Codex chat, or paste an absolute local file path and ask Codex to copy it into `resumes/`.
 2. Optionally write `resumes/search_profile.md`.
 3. Fill local profile data based on `profile/personal_info.example.json`.
 4. Start with:
@@ -75,3 +75,5 @@ Choose the backend that matches your resume source:
 ```text
 jobs setup
 ```
+
+If `jobs setup` does not find a real resume, it should pause and ask for one. The resume is required before LinkedIn profile verification, search matching, referral messaging, or application workflows.

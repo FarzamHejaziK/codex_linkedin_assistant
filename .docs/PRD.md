@@ -82,7 +82,7 @@ Canonical values:
 
 ### Setup
 
-`jobs setup` verifies workspace files, tracker schema, resume presence, application-memory examples, privacy defaults, resume backend choice, and browser preflight.
+`jobs setup` verifies workspace files, tracker schema, resume presence, application-memory examples, privacy defaults, resume backend choice, and browser preflight. If no real resume is present, setup must pause and ask the user to attach/upload a resume, paste an absolute local file path, or drag/copy the file into `resumes/`.
 
 ### Check
 

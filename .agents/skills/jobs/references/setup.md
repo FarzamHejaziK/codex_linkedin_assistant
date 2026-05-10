@@ -7,12 +7,36 @@ Use this when the user asks for `jobs setup`, opens a new workspace, or a requir
 1. Inspect the current folder.
 2. Create missing workspace files from templates without overwriting user files.
 3. Ensure `.gitignore` protects private job-search data.
-4. Ask the user to place resume files in `resumes/`, or accept a path/attachment and move/copy it there if asked.
-5. Help the user choose a resume backend: LaTeX, DOCX, Markdown/HTML, or PDF-only.
-6. Create `profile/personal_info.json` from the example if missing.
-7. Create `profile/screening_answers.md` from the example if missing.
-8. Verify `job_tracker.csv` has the exact schema.
-9. Run browser preflight before browser-dependent workflows.
+4. Check whether `resumes/` contains at least one real resume file, excluding README/example files.
+5. If no real resume exists, stop setup progress and ask the user to provide one using one of these options:
+   - Attach/upload the resume in Codex chat.
+   - Paste the absolute local file path.
+   - Drag/copy the file into `resumes/` and reply `done`.
+6. If the user provides an attachment or path, offer to copy it into `resumes/` and keep the original filename unless there is a collision.
+7. Help the user choose a resume backend: LaTeX, DOCX, Markdown/HTML, or PDF-only.
+8. Create `profile/personal_info.json` from the example if missing.
+9. Create `profile/screening_answers.md` from the example if missing.
+10. Verify `job_tracker.csv` has the exact schema.
+11. Run browser preflight before browser-dependent workflows.
+
+## Resume Intake Gate
+
+Do not say setup is complete or mostly done while the resume is missing. The resume is required for profile-name verification, job matching, search keywords, referral messaging, and resume tailoring.
+
+When the resume is missing, say exactly what the user can do next:
+
+```text
+I do not see a real resume in resumes/ yet.
+
+Send it one of three ways:
+1. Attach/upload the resume here.
+2. Paste the absolute file path, for example /Users/name/Desktop/resume.pdf.
+3. Drag the file into resumes/ and reply done.
+
+If you attach it or give me a path, I can copy it into resumes/ for you.
+```
+
+After the resume is present, continue setup from the remaining checklist.
 
 ## Chrome Extension Setup
 
