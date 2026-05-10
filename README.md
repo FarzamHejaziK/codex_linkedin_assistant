@@ -12,6 +12,7 @@
 </p>
 
 <p align="center">
+  <a href="#prerequisites"><strong>Prerequisites</strong></a> ·
   <a href="#quick-start"><strong>Quick Start</strong></a> ·
   <a href="#how-it-works"><strong>How It Works</strong></a> ·
   <a href="#workflows"><strong>Workflows</strong></a> ·
@@ -22,6 +23,22 @@
 This is a normal repository you open directly in Codex. It tracks jobs in a CSV, reads your resume and search preferences, orchestrates referrals, prepares application materials, remembers reusable screening answers, and guides applications through browser workflows.
 
 It is intentionally prompt-first: Markdown instructions and local files, no helper programs or hidden services.
+
+## Prerequisites
+
+You need these before the job-search flows can work end to end:
+
+- **[Codex app](https://developers.openai.com/codex/app)** - open this repository in the Codex desktop app so Codex can read and write the local workspace files. The browser-only experience is not enough for this repo because the assistant needs local resumes, tracker files, application folders, and git commits.
+- **[Codex Chrome extension](https://developers.openai.com/codex/app/chrome-extension)** - this lets Codex use your signed-in Chrome session for LinkedIn, Gmail, company career pages, and ATS forms. Set it up from Codex with `Codex -> Plugins -> Chrome`, follow the setup flow, then confirm the Chrome toolbar extension shows `Connected`.
+- **Chrome signed in to LinkedIn** - use the same Chrome profile where the Codex extension is connected.
+- **Git** - used to clone the repo and create end-of-day commits.
+
+For resume uploads and referral/application attachments, also enable file access:
+
+```text
+Chrome -> Extensions -> Manage Extensions -> Codex extension -> Details
+Allow access to file URLs
+```
 
 ## Quick Start
 
@@ -70,7 +87,7 @@ resumes/search_profile.md
 
 Use it for must-haves, deal-breakers, locations, salary floor, level, industries, company stage, and role preferences.
 
-### 4. Enable browser file access
+### 4. Confirm browser file access
 
 For application uploads and referral materials:
 

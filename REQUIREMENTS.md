@@ -1,20 +1,32 @@
 # Requirements & Setup
 
-This repo is designed to be opened directly in Codex.
+This repo is designed to be opened directly in the Codex app with Chrome connected for LinkedIn and application workflows.
 
 ## Required
 
-### Codex Desktop
+### Codex App
 
-Open this folder in Codex. Codex reads `AGENTS.md`, which points to the project-local skill at:
+Install and use the [Codex app](https://developers.openai.com/codex/app), then open this folder in Codex. Codex reads `AGENTS.md`, which points to the project-local skill at:
 
 ```text
 .agents/skills/jobs/SKILL.md
 ```
 
-### Chrome + Codex Browser Access
+### Codex Chrome Extension
 
-LinkedIn and application workflows need a signed-in Chrome profile that Codex can operate.
+Install and connect the [Codex Chrome extension](https://developers.openai.com/codex/app/chrome-extension). The extension lets Codex use your signed-in Chrome profile for LinkedIn, Gmail, company career pages, and ATS forms.
+
+Setup path:
+
+```text
+Codex -> Plugins -> Chrome
+```
+
+Follow the setup flow, then open Chrome and confirm the Codex extension shows `Connected`.
+
+### Chrome + LinkedIn Login
+
+Use the same Chrome profile where the Codex extension is connected, then sign in to LinkedIn. The assistant will compare the LinkedIn profile name with the resume name before browser-dependent workflows.
 
 For file uploads, enable local file URL access for the Codex Chrome extension:
 
