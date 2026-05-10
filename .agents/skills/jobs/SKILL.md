@@ -41,7 +41,8 @@ If the user asks generally what this assistant does, how to start, what to do ne
 
 - `job_tracker.csv` is the source of truth for job state.
 - Keep the tracker schema exactly as defined in `references/tracker-schema.md`.
-- At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm Codex can connect to Chrome, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
+- At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
+- Do not substitute macOS Computer Use, screenshots, or generic browser automation for the Codex Chrome extension/tool during LinkedIn preflight. If Chrome-specific tools are not exposed, help the user connect/install them and stop the workflow.
 - There is no standalone `jobs add` workflow. Manual job links are handled by `jobs find`.
 - There is no standalone `jobs update` workflow. Status changes happen through workflow outcomes or direct CSV edits by the user.
 - Never invent resume experience, credentials, metrics, companies, dates, or personal details.

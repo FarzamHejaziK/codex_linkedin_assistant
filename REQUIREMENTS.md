@@ -24,6 +24,8 @@ Codex -> Plugins -> Chrome
 
 Follow the setup flow, then open Chrome and confirm the Codex extension shows `Connected`.
 
+The assistant requires this Chrome extension/tool path for LinkedIn preflight. If a Codex session says Chrome-specific tools are not exposed, reconnect Chrome from `Codex -> Plugins -> Chrome`, restart the session or reopen the repo, and rerun the command. Computer Use is not a substitute for the LinkedIn preflight check.
+
 ### Chrome + LinkedIn Login
 
 Use the same Chrome profile where the Codex extension is connected, then sign in to LinkedIn. The assistant will compare the LinkedIn profile name with the resume name before browser-dependent workflows.
