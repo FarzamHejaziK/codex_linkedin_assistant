@@ -10,12 +10,30 @@ If no real resume exists yet, route to `setup.md` resume intake first. The Linke
 
 LinkedIn preflight must use the Codex Chrome extension/tool path. Generic browser control, macOS Computer Use, screenshots, or manual observation do not count as a passing preflight.
 
+There are two separate requirements:
+
+1. The Codex Chrome Extension is installed/enabled in Chrome.
+2. The active Codex session exposes the Chrome skill/tool so the agent can communicate with that extension.
+
+The extension can be installed on the computer while the active Codex session still does not expose Chrome tools. In that case, the agent cannot complete LinkedIn preflight until the session is reconnected/reopened with Chrome available.
+
+## Connection Attempt Order
+
+Before declaring Chrome unavailable:
+
+1. If a Chrome skill or plugin is available in the current session, use it.
+2. Try a lightweight Chrome connection check first, such as listing open tabs or opening/claiming a harmless tab.
+3. If the first connection check fails, wait briefly and retry once.
+4. If the Chrome skill reports extension/native-host/setup problems, follow the Chrome skill's repair guidance.
+5. Only after those attempts fail should the workflow say Chrome-specific tools are unavailable or not communicating.
+
 If Chrome-specific app tools are not exposed in the active Codex session:
 
 1. If tool discovery is available, search for the Chrome/Codex Chrome tool or skill before declaring it unavailable.
-2. If Chrome still is not exposed, stop the workflow.
-3. Tell the user that the Codex Chrome extension/tool is not available to this session even if it may be installed on the computer.
-4. Walk the user through connecting it:
+2. If a Chrome skill is discovered, use that skill's connection checks before stopping.
+3. If Chrome still is not exposed or cannot communicate after the retry path, stop the workflow.
+4. Tell the user that the Codex Chrome extension/tool is not available to this session even if it may be installed on the computer.
+5. Walk the user through connecting it:
 
 ```text
 Codex -> Plugins -> Chrome

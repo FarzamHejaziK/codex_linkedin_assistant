@@ -82,7 +82,7 @@ Canonical values:
 
 ### Startup Preflight
 
-Every operational `jobs ...` workflow starts by confirming the Codex Chrome extension/tool is exposed and connected, opening LinkedIn, and checking that the active LinkedIn profile name matches the name extracted from the user's resume. If the resume is missing, setup must run resume intake before profile matching. If Chrome-specific tools are not exposed, the workflow must stop and help the user connect/install the Codex Chrome extension; macOS Computer Use, screenshots, and generic browser automation are not acceptable substitutes for the LinkedIn preflight. If LinkedIn is logged out or the profile name does not match, the workflow stops and asks the user to correct the issue before continuing.
+Every operational `jobs ...` workflow starts by confirming the Codex Chrome extension/tool is exposed and connected, opening LinkedIn, and checking that the active LinkedIn profile name matches the name extracted from the user's resume. Installing the extension in Chrome is not enough by itself; the active Codex session must also expose the Chrome skill/tool. If the resume is missing, setup must run resume intake before profile matching. If Chrome-specific tools are not exposed, the workflow must first use tool/skill discovery and any available Chrome-skill connection checks before failing. If Chrome still is not exposed or cannot communicate, the workflow stops and helps the user connect/install the Codex Chrome extension; macOS Computer Use, screenshots, and generic browser automation are not acceptable substitutes for the LinkedIn preflight. If LinkedIn is logged out or the profile name does not match, the workflow stops and asks the user to correct the issue before continuing.
 
 ### Setup
 

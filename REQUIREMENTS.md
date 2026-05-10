@@ -24,7 +24,7 @@ Codex -> Plugins -> Chrome
 
 Follow the setup flow, then open Chrome and confirm the Codex extension shows `Connected`.
 
-The assistant requires this Chrome extension/tool path for LinkedIn preflight. If a Codex session says Chrome-specific tools are not exposed, reconnect Chrome from `Codex -> Plugins -> Chrome`, restart the session or reopen the repo, and rerun the command. Computer Use is not a substitute for the LinkedIn preflight check.
+The assistant requires this Chrome extension/tool path for LinkedIn preflight. Installing the extension in Chrome is necessary but not always sufficient: the active Codex session also has to expose the Chrome skill/tool to the agent. If a Codex session says Chrome-specific tools are not exposed, reconnect Chrome from `Codex -> Plugins -> Chrome`, restart the session or reopen the repo, and rerun the command. Computer Use is not a substitute for the LinkedIn preflight check.
 
 ### Chrome + LinkedIn Login
 
