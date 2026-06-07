@@ -1,4 +1,4 @@
-# PRD: Codex LinkedIn Job Search Assistant
+# PRD: Codex Job Search Assistant
 
 ## 1. Summary
 
@@ -15,6 +15,7 @@ The assistant should:
 - Store outreach/contact logs in `outreach/`.
 - Support resume tailoring through the user's chosen source format.
 - Orchestrate referrals, follow-ups, and application submission with explicit approval gates.
+- Support optional Indeed discovery and optional Indeed profile optimization without making Indeed part of the default workflow.
 
 ## 2. Goals
 
@@ -22,6 +23,7 @@ The assistant should:
 - Keep the workflow generic and free of private candidate data.
 - Preserve the existing tracker schema exactly.
 - Support `jobs setup`, `jobs check`, `jobs find`, `jobs referral`, `jobs apply`, and `jobs daily`.
+- Keep LinkedIn mandatory and primary while allowing opt-in Indeed discovery.
 - Keep all instructions prompt-first and Markdown-only.
 - Add root workspace files and docs modeled after the public LinkedIn assistant pattern.
 - Use `.agents/skills/jobs/SKILL.md` as the primary instruction surface.
@@ -35,6 +37,7 @@ The assistant should:
 - No committed real resumes, profile files, outreach logs, or application folders.
 - No fixed assumption that every user uses LaTeX.
 - No automated sending or submitting without explicit approval.
+- No required Indeed account and no committed Indeed account/profile data.
 
 ## 4. Product Shape
 
@@ -86,7 +89,7 @@ Every operational `jobs ...` workflow starts by confirming the Codex Chrome exte
 
 ### Setup
 
-`jobs setup` verifies workspace files, tracker schema, resume presence, application-memory examples, privacy defaults, resume backend choice, and browser preflight. If no real resume is present, setup must pause and ask the user to attach/upload a resume, paste an absolute local file path, or drag/copy the file into `resumes/`. After resume intake, setup should ask onboarding questions and create `resumes/search_profile.md`, `profile/personal_info.json`, and `profile/screening_answers.md` for the user instead of telling the user to create those files manually.
+`jobs setup` verifies workspace files, tracker schema, resume presence, application-memory examples, privacy defaults, resume backend choice, and browser preflight. If no real resume is present, setup must pause and ask the user to attach/upload a resume, paste an absolute local file path, or drag/copy the file into `resumes/`. After resume intake, setup should ask onboarding questions and create `resumes/search_profile.md`, `profile/personal_info.json`, and `profile/screening_answers.md` for the user instead of telling the user to create those files manually. Setup also offers optional Indeed discovery and optional Indeed profile optimization. Declining Indeed must preserve the LinkedIn + web/company-board workflow.
 
 ### Check
 
@@ -94,7 +97,11 @@ Every operational `jobs ...` workflow starts by confirming the Codex Chrome exte
 
 ### Find
 
-`jobs find` reads resume(s) and optional `resumes/search_profile.md`, runs a LinkedIn Jobs search pass in Chrome as the primary discovery source, optionally supplements with web/company-board search, or intakes a pasted job link. It dedupes against the tracker, scores candidates, and adds qualified rows. There is no separate add workflow. It must not silently replace LinkedIn search with web search; if LinkedIn/Chrome is blocked, it asks whether to continue with web/company-board sources only.
+`jobs find` reads resume(s) and optional `resumes/search_profile.md`, runs a LinkedIn Jobs search pass in Chrome as the primary discovery source, optionally supplements with web/company-board search, optionally adds Indeed when enabled, or intakes a pasted job link. It dedupes against the tracker, scores candidates, and adds qualified rows. There is no separate add workflow. It must not silently replace LinkedIn search with web search or Indeed; if LinkedIn/Chrome is blocked, it asks whether to continue with web/company-board sources only.
+
+### Indeed
+
+Indeed is optional and disabled by default. If enabled during setup, `jobs find` can run active Indeed search, best-effort logged-in recommendation harvest, and user-pasted Career Scout intake after the LinkedIn search pass. Indeed candidates are leads, not truth; verify company career sites when possible, prefer company URLs, and mark Indeed-only rows with `Apply Via=Indeed`. Indeed CAPTCHA, block, login failure, or blank pages stop the current Indeed lane only and must not block check, referral, apply, LinkedIn discovery, or daily summaries.
 
 ### Referral
 
@@ -111,6 +118,8 @@ Every operational `jobs ...` workflow starts by confirming the Codex Chrome exte
 ```text
 check -> apply ready jobs -> referral -> find jobs -> instant-apply no-referral jobs -> commit -> summary
 ```
+
+When platform configuration is missing, `jobs daily` may run setup first. If Indeed is enabled, daily includes it through the `jobs find` step.
 
 ## 7. Privacy
 

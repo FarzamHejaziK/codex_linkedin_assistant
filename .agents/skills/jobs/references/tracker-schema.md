@@ -12,7 +12,7 @@ Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,N
 - `Status`: `To Apply`, `Applied`, `Recruiter Call`, `Phone Screen`, `Onsite`, `Offer`, `Rejected`, `Withdrew`
 - `Referral Needed`: `YES`, `NO`
 - `Referral Status`: `Not Needed`, `Outreach Pending`, `Connection Pending`, `Outreach Sent`, `Got Referral`, `Declined`, `No Referral`
-- `Apply Via`: `LinkedIn Easy Apply`, `Company Website`, `Blocked`, or a concise site/method label
+- `Apply Via`: `LinkedIn Easy Apply`, `Company Website`, `Indeed`, `Blocked`, or a concise site/method label
 
 Dates use `YYYY-MM-DD`.
 

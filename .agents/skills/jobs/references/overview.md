@@ -15,7 +15,7 @@ This assistant turns a local folder into a job-search workspace managed by Codex
 
 - `jobs setup`: initialize a workspace from templates and run preflight.
 - `jobs check`: show the dashboard and queues.
-- `jobs find`: discover jobs or intake a pasted job link.
+- `jobs find`: discover jobs via LinkedIn first, supplemental web/company boards, optional Indeed, or intake a pasted job link.
 - `jobs apply`: tailor materials, fill forms, upload files, and update tracker after confirmation.
 - `jobs referral`: orchestrate warm replies, referral material sends, follow-ups, connection checks, outreach, and deadline enforcement.
 - `jobs daily`: run check, apply-ready, referral, find, instant no-referral apply, commit, and summary.
@@ -39,6 +39,8 @@ I can create the setup files for you. I will ask a few questions about target ro
 ```
 
 Never tell the user to manually create `resumes/search_profile.md`, `profile/personal_info.json`, or `profile/screening_answers.md` as the primary path. Manual editing is optional, not the default.
+
+During setup, offer Indeed as an optional additional discovery source. If the user declines or says later, keep Indeed disabled and continue with LinkedIn plus web/company-board search. If they opt in, follow `indeed.md`.
 
 ## Runtime Expectations
 

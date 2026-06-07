@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo-animation.gif" width="600" alt="Codex LinkedIn Assistant" />
+  <img src="assets/logo-animation.gif" width="600" alt="Codex Job Search Assistant" />
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
   <a href="#contributing"><strong>Contributing</strong></a>
 </p>
 
-A Codex assistant for LinkedIn. Track jobs in a single CSV, discover openings via LinkedIn + web search, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
+A Codex job-search assistant. Track jobs in a single CSV, discover openings via LinkedIn + web search + optional Indeed, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
 
 > **Scope on purpose:** Codex handles the repetitive organization, drafting, browser navigation, and file preparation. You approve anything externally visible or judgment-heavy: messages, emails, uploads, applications, sensitive screening answers, and final submissions.
 
@@ -39,6 +39,10 @@ You need these before the job-search flows can work end to end:
 - **[Codex Chrome extension](https://developers.openai.com/codex/app/chrome-extension)** - this lets Codex use your signed-in Chrome session for LinkedIn, Gmail, company career pages, and ATS forms. Set it up from Codex with `Codex -> Plugins -> Chrome`, follow the setup flow, then confirm the Chrome toolbar extension shows `Connected`.
 - **Chrome signed in to LinkedIn** - use the same Chrome profile where the Codex extension is connected.
 - **Git** - used to clone the repo and create end-of-day commits.
+
+Optional:
+
+- **Indeed account** - sign into [indeed.com](https://www.indeed.com/) in the same Chrome profile if you want Indeed discovery or Indeed profile optimization. Indeed is disabled by default and can be enabled during `jobs setup`.
 
 For resume uploads and referral/application attachments, also enable file access:
 
@@ -115,6 +119,20 @@ jobs setup
 
 If no real resume is present yet, setup should pause and ask you to upload one here, paste an absolute local path, or drag a file into `resumes/`. After that, Codex should ask onboarding questions and create the search/profile files itself.
 
+Setup also asks whether you want optional Indeed support:
+
+- Choose `no` or `later` to keep the workflow LinkedIn + web/company-board search only.
+- Choose `yes` to add Indeed discovery.
+- If Indeed discovery is enabled, profile optimization is offered as a separate optional step. Every public-facing profile edit is shown before saving.
+
+### 6. Run daily
+
+```text
+jobs daily
+```
+
+`jobs daily` is the main orchestrator. It checks the tracker, applies to ready jobs with approval, runs referral workflows, discovers new jobs, instant-applies no-referral jobs with approval, commits, and summarizes the day.
+
 ## How it works
 
 The assistant is built around local files:
@@ -130,6 +148,8 @@ The assistant is built around local files:
 There is no database. Open the CSV and folders to inspect the current state.
 
 At the start of every operational `jobs ...` workflow, Codex should confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile name matches the name on the resume. Installing the Chrome extension is not the same as exposing a working Chrome connection to a Codex session; both have to be true. If Chrome-specific tools are not exposed or not communicating after discovery/connection attempts, Codex should explain the exact state and help you reconnect Chrome instead of falling back to Computer Use. If the resume is missing, setup pauses for resume intake first.
+
+LinkedIn remains the primary discovery source. Indeed is optional. When enabled, `jobs find` adds Indeed search, best-effort Indeed recommendations, and user-pasted Career Scout recommendations after the LinkedIn search pass. If Indeed is blocked or unavailable, the rest of the workflow continues.
 
 ## Repository Structure
 
@@ -163,6 +183,7 @@ Codex_Linkedlin_assistant/
 │               ├── check.md
 │               ├── daily.md
 │               ├── find.md
+│               ├── indeed.md
 │               ├── overview.md
 │               ├── referral.md
 │               ├── resume-backends.md
@@ -190,10 +211,11 @@ Codex_Linkedlin_assistant/
 |---|---|
 | `jobs setup` | Verifies workspace files, tracker schema, resume intake, resume backend, and browser preflight |
 | `jobs check` | Shows dashboard, deadlines, ready-to-apply jobs, and outreach queues |
-| `jobs find` | Searches LinkedIn Jobs in Chrome first, supplements with web/company boards, or intakes a pasted job link |
+| `jobs find` | Searches LinkedIn Jobs in Chrome first, supplements with web/company boards and optional Indeed, or intakes a pasted job link |
 | `jobs referral` | Handles replies, referral materials, email-vs-LinkedIn decisions, follow-ups, outreach, and deadlines |
 | `jobs apply` | Prepares materials, tailors resume when possible, fills forms, uploads files, and submits after approval |
 | `jobs daily` | Runs the daily sequence and commits at the end when appropriate |
+| `jobs indeed-setup` | Enables/retries optional Indeed discovery or optimizes the Indeed profile from local resume/profile data |
 
 There is no standalone `jobs add` or `jobs update`.
 
@@ -203,7 +225,7 @@ There is no standalone `jobs add` or `jobs update`.
 1. jobs check
 2. jobs apply        # ready jobs
 3. jobs referral     # replies, follow-ups, outreach, deadlines
-4. jobs find         # discovery and manual-link intake
+4. jobs find         # LinkedIn-first discovery, optional Indeed, and manual-link intake
 5. instant apply     # newly found no-referral jobs, with approval
 6. commit
 7. summary

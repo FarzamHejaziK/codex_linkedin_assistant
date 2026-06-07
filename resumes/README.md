@@ -25,3 +25,17 @@ Example topics:
 - Company size or stage preferences
 
 The search profile describes what you want. Your resume describes what you can do. If they conflict, the search profile wins.
+
+`jobs setup` can create this file for you. It may also add local platform configuration:
+
+```markdown
+## Platforms
+- LinkedIn: yes
+- Indeed: no
+
+## Indeed
+- Discovery: disabled
+- Profile optimization: skipped
+```
+
+LinkedIn is mandatory. Indeed is optional and disabled unless you enable it during setup or with `jobs indeed-setup`.

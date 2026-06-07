@@ -10,6 +10,9 @@ Apply only to rows that are ready under `tracker-schema.md`. If referral is stil
 
 1. Select the target job from ready rows or from the user's explicit company/role.
 2. Verify the job URL is live and points to the intended role.
+   - For `Apply Via=Indeed` or notes containing `Indeed-only posting`, search for the matching role on the company careers site when possible.
+   - Prefer a live company careers URL before applying.
+   - If only the Indeed posting is live and credible, continue with the Indeed URL after noting that it is an Indeed-only application path.
 3. Capture the job description. If the page is unreadable, ask the user to paste it.
 4. Create the application folder.
 5. Choose the resume backend and source.

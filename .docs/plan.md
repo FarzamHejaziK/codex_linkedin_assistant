@@ -1,4 +1,4 @@
-# Implementation Plan: Repo-First Codex LinkedIn Assistant
+# Implementation Plan: Repo-First Codex Job Search Assistant
 
 ## 1. Direction
 
@@ -43,6 +43,7 @@ job_tracker.csv
         resume-backends.md
         check.md
         find.md
+        indeed.md
         apply.md
         referral.md
         daily.md
@@ -66,7 +67,7 @@ outreach/
 
 `AGENTS.md` is the project contract loaded by Codex. It must:
 
-- Describe the repo as a generic Codex LinkedIn job-search assistant.
+- Describe the repo as a generic Codex job-search assistant.
 - Point to `.agents/skills/jobs/SKILL.md`.
 - Name `.docs/PRD.md` and `.docs/plan.md` as canonical design docs.
 - Define hard rules: tracker source of truth, no fabricated experience, approval gates, privacy, no standalone add/update.
@@ -101,7 +102,8 @@ Move the existing Markdown workflow references to `.agents/skills/jobs/reference
 - `browser-preflight.md`: mandatory startup Codex Chrome extension/tool connection and LinkedIn profile-match checks, explicit no-Computer-Use fallback rule, plus upload readiness.
 - `resume-backends.md`: LaTeX, DOCX, Markdown/HTML, PDF-only.
 - `check.md`: dashboard.
-- `find.md`: discovery and manual-link intake.
+- `find.md`: LinkedIn-first discovery, optional Indeed, supplemental web/company-board search, and manual-link intake.
+- `indeed.md`: optional Indeed setup, profile optimization, active search, recommendation harvest, Career Scout intake, and fail-soft rules.
 - `apply.md`: application folders, resume material, forms, uploads, approval.
 - `referral.md`: replies, materials, email-vs-LinkedIn, follow-ups, outreach, deadlines.
 - `daily.md`: check, apply, referral, find, instant no-referral apply, commit.
@@ -119,6 +121,7 @@ After implementation:
 - Confirm `job_tracker.csv` header exactly matches the schema.
 - Search for stale metadata terms from the previous architecture and remove them.
 - Search for stale assistant-source terms and private user strings.
+- Confirm Indeed is optional, disabled by default, and governed by prompt-only Markdown references.
 - Confirm no real resume/profile/outreach/application data is committed.
 - Confirm no `.py`, `.sh`, `.js`, `.ts`, or app-code files exist.
 

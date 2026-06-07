@@ -6,7 +6,7 @@ The user workspace should contain:
 job_tracker.csv
 resumes/
   README.md
-  search_profile.md          # optional
+  search_profile.md          # optional preferences and platform config
 base_resumes/
   README.md
 profile/

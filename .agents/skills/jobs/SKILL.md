@@ -5,7 +5,7 @@ description: Run a prompt-first local job-search workspace in Codex, including s
 
 # Jobs Skill
 
-Use this skill when the user asks for `jobs setup`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`, `jobs daily`, LinkedIn outreach, resume tailoring, application tracking, referral handling, or job-search workflow help.
+Use this skill when the user asks for `jobs setup`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`, `jobs daily`, `jobs indeed-setup`, Indeed setup, Indeed profile optimization, LinkedIn outreach, resume tailoring, application tracking, referral handling, or job-search workflow help.
 
 This repository is prompt-first. It ships Markdown instructions and local workspace files only. Do not look for helper programs, automation scripts, browser libraries, or renderers owned by this repo. Use active Codex tools and the user's local environment at runtime.
 
@@ -28,12 +28,13 @@ Before acting, read only the references needed for the user's intent:
 
 | User intent | References to read |
 |---|---|
-| `jobs setup` | `references/setup.md`, `references/workspace-files.md`, `references/browser-preflight.md`, `references/resume-backends.md` |
+| `jobs setup` | `references/setup.md`, `references/workspace-files.md`, `references/browser-preflight.md`, `references/resume-backends.md`, `references/indeed.md` |
 | `jobs check` | `references/tracker-schema.md`, `references/check.md`, `references/browser-preflight.md` |
-| `jobs find` | `references/tracker-schema.md`, `references/find.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs apply` | `references/tracker-schema.md`, `references/apply.md`, `references/resume-backends.md`, `references/browser-preflight.md`, `references/writing-style.md` |
+| `jobs find` | `references/tracker-schema.md`, `references/find.md`, `references/indeed.md`, `references/browser-preflight.md`, `references/writing-style.md` |
+| `jobs apply` | `references/tracker-schema.md`, `references/apply.md`, `references/indeed.md`, `references/resume-backends.md`, `references/browser-preflight.md`, `references/writing-style.md` |
 | `jobs referral` | `references/tracker-schema.md`, `references/referral.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, `references/browser-preflight.md`, plus each referenced workflow as it runs |
+| `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, `references/indeed.md`, `references/browser-preflight.md`, plus each referenced workflow as it runs |
+| `jobs indeed-setup` or Indeed setup/optimization | `references/indeed.md`, `references/setup.md`, `references/browser-preflight.md`, `references/resume-backends.md`, `references/writing-style.md` |
 
 If the user asks generally what this assistant does, how to start, what to do next, or appears to be in first-run onboarding, read `references/overview.md` and `references/setup.md`.
 
@@ -42,6 +43,7 @@ If the user asks generally what this assistant does, how to start, what to do ne
 - `job_tracker.csv` is the source of truth for job state.
 - Keep the tracker schema exactly as defined in `references/tracker-schema.md`.
 - At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
+- LinkedIn is mandatory and primary. Indeed is optional, disabled by default, and governed by `references/indeed.md`.
 - Do not substitute macOS Computer Use, screenshots, or generic browser automation for the Codex Chrome extension/tool during LinkedIn preflight. If Chrome-specific tools are not exposed, help the user connect/install them and stop the workflow.
 - Do not mention `mcp__chrome`, MCP namespaces, or Claude-style tool namespaces in user-facing messages. Use Codex terms: Chrome skill/tool, Codex Chrome extension, and active Codex session.
 - If the available skills/plugins list includes Chrome, treat that as a Chrome path to try. Do not stop at preflight before invoking the Chrome skill/tool connection checks.
@@ -53,3 +55,4 @@ If the user asks generally what this assistant does, how to start, what to do ne
 - File uploads are allowed only after Codex browser access is ready and Chrome extension file URL access has been enabled.
 - Referral is an orchestrator, not a router.
 - First-run setup should be interactive. Do not tell the user to manually create profile/search files when Codex can ask questions and create them.
+- Indeed profile optimization edits public-facing fields. Show proposed section changes and ask approval before each section save.

@@ -12,6 +12,13 @@ Read:
 
 If no resume exists, ask the user to add one before searching.
 
+Check `resumes/search_profile.md` for platform configuration:
+
+- LinkedIn is mandatory and primary.
+- Indeed is enabled only when the search profile contains `Indeed: yes` in `## Platforms` or `Discovery: enabled` in `## Indeed`.
+- If neither is present, skip Indeed entirely.
+- If no platform configuration exists, continue with LinkedIn + web/company-board search and suggest `jobs setup` to configure optional platforms.
+
 ## Search Plan
 
 From resume(s), infer:
@@ -40,6 +47,8 @@ Use LinkedIn in Chrome as the primary discovery source after browser preflight p
 Run LinkedIn job searches for the inferred target titles and target locations. Prefer recent postings and filter/sort for relevance, recency, and target location when available.
 
 Use web search and direct company job-board pages as supplemental sources after the LinkedIn search pass, or as fallback sources when LinkedIn/Chrome is blocked and the user approves continuing without LinkedIn.
+
+If Indeed is enabled, run the Indeed lanes from `indeed.md` after the LinkedIn search pass. Indeed is additional discovery; it does not replace LinkedIn.
 
 For manual intake, inspect the supplied URL and extract job details from that page.
 
@@ -70,9 +79,35 @@ Extract:
 
 Deduplicate against the tracker. Drop hard exclusions before scoring.
 
+## Indeed Search Pass
+
+Run this section only when Indeed is enabled in `resumes/search_profile.md`.
+
+Follow `indeed.md`:
+
+1. Run active Indeed searches for the same target titles and allowed locations.
+2. Include Remote when the search profile allows remote work.
+3. Harvest logged-in Indeed recommendations only as a best-effort bonus lane.
+4. Accept pasted Career Scout recommendations as user-fed personalized recommendations.
+5. Stop the current Indeed lane on CAPTCHA, verification, 403, blank page, or platform block.
+6. Continue LinkedIn, web/company-board search, tracker updates, and daily workflow when Indeed is blocked.
+
+Tag source labels in candidate notes:
+
+- `Indeed Search`
+- `Indeed Recommendation`
+- `Career Scout`
+
 ## Scoring and Priority
 
 Score candidates by title fit, location fit, keyword overlap, freshness, salary fit, and search-profile alignment.
+
+For Indeed candidates:
+
+- Add a small bonus for `Indeed Recommendation` or `Career Scout` source, but never let that bonus rescue a weak fit.
+- Verify the same company/role on the company careers site when possible.
+- Prefer the company careers URL when a live posting exists.
+- Keep the Indeed URL only when it is live and credible and no better company URL is found.
 
 Set priority:
 
@@ -89,6 +124,8 @@ For accepted or high-confidence candidates:
 - Fill company, role, location, type, salary, URL, priority, and notes.
 - Determine referral need using company size/followers.
 - Set referral fields from `tracker-schema.md`.
+- For Indeed-only jobs, set `Apply Via=Indeed` and add `Indeed-only posting; verify before apply` to notes.
+- For Indeed-discovered jobs verified on the company site, prefer `Apply Via=Company Website` and add `Verified company site from Indeed discovery` to notes.
 
 Show a summary table of added rows and a short list of deduped/skipped jobs.
 

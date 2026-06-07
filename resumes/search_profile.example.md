@@ -21,3 +21,13 @@
 ## Notes
 
 - Anything else Codex should consider when finding jobs:
+
+## Platforms
+
+- LinkedIn: yes
+- Indeed: no
+
+## Indeed
+
+- Discovery: disabled
+- Profile optimization: skipped

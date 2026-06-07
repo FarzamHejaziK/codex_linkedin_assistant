@@ -49,6 +49,16 @@ Git is used for end-of-day commits.
 git --version
 ```
 
+## Optional
+
+### Indeed Login
+
+If you want Indeed discovery or Indeed profile optimization, sign into [indeed.com](https://www.indeed.com/) in the same Chrome profile where the Codex extension is connected.
+
+No Indeed API key is required. Codex uses the browser session through the Codex Chrome extension.
+
+Indeed is disabled by default. `jobs setup` asks whether to enable it. If Indeed shows CAPTCHA, blocks automation, or is unavailable, Codex should skip Indeed and continue with LinkedIn, web/company-board search, referrals, and applications.
+
 ## Recommended
 
 ### CSV Editor

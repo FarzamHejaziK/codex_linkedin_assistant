@@ -17,6 +17,7 @@ Use this when the user asks for `jobs setup`, opens a new workspace, or a requir
 8. Ask onboarding questions and create missing setup files for the user.
 9. Verify `job_tracker.csv` has the exact schema.
 10. Run startup browser preflight: confirm Chrome connection and LinkedIn profile match.
+11. Offer optional Indeed discovery and optional Indeed profile optimization using `indeed.md`.
 
 ## Resume Intake Gate
 
@@ -66,6 +67,58 @@ Use the resume to infer non-sensitive defaults when possible, then ask the user 
 For `profile/screening_answers.md`, seed reusable answers from the user's responses, such as work authorization, sponsorship, relocation, salary range, notice period, and remote/onsite preference. Do not invent answers for demographic disclosures or sensitive questions.
 
 After creating files, summarize what was created and what remains unknown. The next suggested action should be `jobs setup` again only when setup was blocked; otherwise suggest `jobs find` or `jobs daily` depending on readiness.
+
+## Platform Setup
+
+LinkedIn is mandatory. Indeed is optional and disabled by default.
+
+After resume intake, profile/search file creation, tracker-schema verification, and LinkedIn preflight, ask:
+
+```text
+Do you want to include Indeed as an additional job source?
+
+It can add Indeed search and logged-in Indeed recommendations to jobs find and jobs daily.
+It requires being signed into indeed.com in the same Chrome profile used by the Codex Chrome extension.
+
+Say yes, no, or later.
+```
+
+If the user says no or later:
+
+- Preserve existing `resumes/search_profile.md` content.
+- Add or update the platform sections:
+
+```markdown
+## Platforms
+- LinkedIn: yes
+- Indeed: no
+
+## Indeed
+- Discovery: disabled
+- Profile optimization: skipped
+```
+
+- Do not open or modify Indeed.
+
+If the user says yes:
+
+- Follow `indeed.md` setup opt-in.
+- Verify Indeed signed-in state in the same Chrome profile.
+- If successful, write `Indeed: yes` and `Discovery: enabled`.
+- If blocked, logged out after retry, or unavailable, keep setup moving and mark the relevant Indeed state as disabled or blocked.
+
+After Indeed discovery is enabled, ask separately:
+
+```text
+Do you want me to help optimize your Indeed profile from your resume?
+
+This can improve Indeed matching, but it edits public-facing profile fields like headline, summary, skills, qualifications, preferences, and Ready to Work.
+I will show each section before saving.
+
+Say yes, no, or later.
+```
+
+If yes, follow `indeed.md` profile optimization. If no or later, record `Profile optimization: skipped` or `later`. Declining profile optimization must not disable Indeed discovery.
 
 ## Chrome Extension Setup
 
