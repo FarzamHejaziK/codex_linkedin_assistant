@@ -102,9 +102,9 @@ See the [persistence contract](plugins/job-search-assistant/skills/jobs/referenc
 
 ## Plugin distribution
 
-The installable package is `plugins/job-search-assistant/`. Version 0.1.1 includes directory listing metadata and icons. The local marketplace and GitHub source are separate from OpenAI's public plugin directory; a release ZIP must pass OpenAI's checks and review before publication. This repository does not claim directory approval or availability.
+The installable package is `plugins/job-search-assistant/`. Version 0.1.2 includes directory listing metadata, icons, and a public privacy policy link. The local marketplace and GitHub source are separate from OpenAI's public plugin directory; a release ZIP must pass OpenAI's checks and review before publication. This repository does not claim directory approval or availability.
 
-See the [publication guide](.docs/plugin-publication.md) for packaging, validation, and submission status. The package's [data-handling notice](plugins/job-search-assistant/PRIVACY.md) explains local storage and processing by OpenAI and selected services. Cloud-only chats need authorized access to the same computer to use its saved workspace; installation does not synchronize private files.
+See the [publication guide](.docs/plugin-publication.md) for packaging, validation, and submission status. The package's [privacy policy](plugins/job-search-assistant/PRIVACY.md) explains local storage and processing by OpenAI and selected services. Cloud-only chats need authorized access to the same computer to use its saved workspace; installation does not synchronize private files.
 
 ## What it does
 

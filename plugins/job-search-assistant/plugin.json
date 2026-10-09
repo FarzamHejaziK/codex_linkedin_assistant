@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "job-search-assistant",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Plan and track a job search with local workspace persistence, application preparation, referrals, and approved browser workflows.",
   "author": {
     "name": "Farzam Hejazi"
@@ -19,7 +19,7 @@
     "com.openai": {
       "onboardingSkill": "./skills/jobs/SKILL.md",
       "publication": {
-        "release_notes": "0.1.1 adds directory listing metadata, original icons, and a data-handling notice. Local workspace persistence and the 16-column tracker schema are unchanged."
+        "release_notes": "0.1.2 adds a publicly accessible, versioned privacy policy URL. Local workspace persistence, workflows, and the 16-column tracker schema are unchanged."
       },
       "interface": {
         "displayName": "Job Search Assistant",
@@ -42,7 +42,8 @@
         "brandColor": "#142B3A",
         "brandColorDark": "#69E0C1",
         "composerIcon": "./assets/icon.svg",
-        "logo": "./assets/icon.svg"
+        "logo": "./assets/icon.svg",
+        "privacyPolicyURL": "https://github.com/FarzamHejaziK/codex_linkedin_assistant/blob/1af95c010b86eeddb9067604fd0187f06b6dbf55/plugins/job-search-assistant/PRIVACY.md"
       }
     }
   }
