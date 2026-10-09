@@ -1,7 +1,7 @@
 {
   "name": "job-search-assistant",
-  "version": "0.1.2",
-  "description": "Plan and track a job search with local workspace persistence, application preparation, referrals, and approved browser workflows.",
+  "version": "0.1.3",
+  "description": "Find relevant jobs, tailor truthful applications, plan referrals, and pick up where you left off with a saved local workspace.",
   "author": {
     "name": "Farzam Hejazi"
   },
@@ -10,21 +10,24 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Job Search Assistant",
-    "shortDescription": "Your job search, saved locally",
-    "longDescription": "Organize your job search in a local workspace you control. Track roles, review next steps, research openings, prepare truthful resume and application materials, and coordinate referrals and follow-ups. Return in a new chat to continue from your saved tracker and progress.\n\nDesigned for Codex and ChatGPT Work sessions with access to your local files. Browser workflows also require supported browser tools and sign-in to the relevant service. LinkedIn Jobs is the primary discovery source; Indeed is optional. Review and approve uploads, messages, application submissions, and public profile changes.\n\nThis plugin contains skills and templates, with no publisher-operated server or background service. Your working files persist outside the installed plugin. Local storage does not mean offline processing: information read by the assistant is processed through OpenAI and any services you choose to use. Cloud-only sessions cannot load your computer's workspace without local computer access. No cross-device sync or job-placement guarantee is provided.\n\nIndependent project by Farzam Hejazi; not affiliated with or endorsed by OpenAI, LinkedIn, Indeed, or employers.",
+    "shortDescription": "A job search that remembers",
+    "longDescription": "Move from \"I should apply\" to a clear next step. Find relevant roles, turn your real experience into focused applications, and keep your job search moving without starting over in every chat.\n\nJob Search Assistant brings discovery, resume tailoring, referrals, applications, and follow-ups into one local workspace. Describe the help you need in plain language, whether you are starting a search, managing several opportunities, or returning to unfinished applications.\n\nFind opportunities that fit. Search LinkedIn Jobs based on your experience, target roles, location, and dealbreakers, with employer career pages and web research for additional context. Indeed is optional. Already have a job link? Bring it in for a focused review. Compare requirements with your background, see strengths and gaps, and save promising roles without duplicate tracker entries.\n\nPrepare an application with a clear story. Tailor your resume and application materials using your actual experience. Connect relevant projects and skills to the role, identify missing evidence, and prepare answers for your review. Unknown details stay as questions for you; the workflow does not invent credentials, achievements, or experience.\n\nMake referrals and follow-ups easier to manage. Research potential contacts, draft outreach, coordinate referral steps, and track replies and next actions. Review the recipient, exact message, and any attachments before anything is sent. A referral conversation and a confirmed referral are tracked separately.\n\nKnow what deserves attention next. Review priorities, application status, referral deadlines, and pending work in your tracker. Ask for a short list of useful next steps, focus on a specific role, or set a limit such as \"I have 15 minutes\" or \"prepare three applications.\" Prepare-only requests keep the work local for your review.\n\nPick up where you left off. Your selected workspace keeps the tracker, resume sources, preferences, application materials, and progress between local chats. Say \"continue my job search\" to resume from saved records. Plugin updates and removal leave those working files in place, and you control their retention and deletion.\n\nYou stay in control. Review and explicitly approve uploads, messages, connection requests, application submissions, and public profile changes. The assistant checks relevant browser accounts and pauses blocked browser steps while continuing useful local preparation.\n\nDesigned for Codex and ChatGPT Work sessions with access to your local files. Browser tasks also need supported browser tools and sign-in to the relevant service. Installation alone does not grant file or account access. Cloud-only sessions cannot read your computer's workspace without local access. This plugin provides instructions and templates; it has no publisher-operated server, background service, or cross-device synchronization.\n\nLocal storage does not mean offline processing: information read by the assistant is processed through OpenAI and any services you choose to use. Job availability can change, and no interview or job-placement outcome is guaranteed. Independent project by Farzam Hejazi; not affiliated with or endorsed by OpenAI, LinkedIn, Indeed, or employers.",
     "developerName": "Farzam Hejazi",
     "category": "Productivity",
     "capabilities": [
-      "Local job tracking",
-      "Application preparation",
-      "Referral planning"
+      "Personalized job discovery",
+      "Resume and role-fit analysis",
+      "Tailored application materials",
+      "Referral and outreach drafts",
+      "Application and follow-up tracking",
+      "Local progress across chats"
     ],
     "websiteURL": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
     "supportURL": "https://github.com/FarzamHejaziK/codex_linkedin_assistant/issues",
     "defaultPrompt": [
-      "Help me set up a local workspace for my job search.",
-      "Review my job tracker and recommend my next steps.",
-      "Continue my job search from saved progress."
+      "Help me set up my job search using my resume, target roles, location, and dealbreakers.",
+      "Find 3 roles that fit my experience, explain the gaps, and save the best matches to my tracker.",
+      "Continue my job search: show what needs attention and help prepare my next application."
     ],
     "brandColor": "#142B3A",
     "brandColorDark": "#69E0C1",
@@ -35,15 +38,19 @@
   "homepage": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
   "keywords": [
     "job-search",
+    "job-tracker",
+    "resume-tailoring",
     "applications",
-    "resume",
+    "referrals",
+    "career",
+    "follow-ups",
     "local-workspace"
   ],
   "extensions": {
     "com.openai": {
       "onboardingSkill": "./skills/jobs/SKILL.md",
       "publication": {
-        "release_notes": "0.1.2 adds a publicly accessible, versioned privacy policy URL. Local workspace persistence, workflows, and the 16-column tracker schema are unchanged."
+        "release_notes": "0.1.3 expands the listing with practical workflow examples, clearer capabilities, and more useful starter prompts. The public privacy policy and local persistence behavior are unchanged."
       }
     }
   }

@@ -1,6 +1,6 @@
 # Job Search Assistant: Directory Release
 
-Release: 0.1.2. Prepared 2026-10-09.
+Release: 0.1.3. Prepared 2026-10-09.
 
 ## Scope
 
@@ -14,9 +14,9 @@ Build from a reviewed commit, using only its plugin subtree. Run from the reposi
 
 ```sh
 mkdir -p dist
-git archive --format=zip --output=dist/job-search-assistant-0.1.2.zip HEAD:plugins/job-search-assistant
-shasum -a 256 dist/job-search-assistant-0.1.2.zip
-unzip -l dist/job-search-assistant-0.1.2.zip
+git archive --format=zip --output=dist/job-search-assistant-0.1.3.zip HEAD:plugins/job-search-assistant
+shasum -a 256 dist/job-search-assistant-0.1.3.zip
+unzip -l dist/job-search-assistant-0.1.3.zip
 ```
 
 The archive root contains plugin.json, .codex-plugin/plugin.json, LICENSE, PRIVACY.md, assets/, and skills/. Do not ZIP the whole workspace. dist/ is ignored and does not belong in the plugin.
@@ -42,10 +42,10 @@ The current submission flow does not support adding an MCP server to an existing
 ## Status
 
 - Package preparation and local validation: complete. Both manifests agree, the portable manifest passes its published JSON Schema, listing limits and local references pass, and the original 512px SVG was rendered and visually checked.
-- Archive: dist/job-search-assistant-0.1.2.zip contains exactly the 27 public package files and matches the committed package byte-for-byte. SHA-256: `a35198a3cf28a7d5a72bc214511e984c16df56838cb052c5a3d0cf4f76c3cc6d`. Both manifests match and the portable manifest passes the published JSON Schema.
+- Archive: 0.1.3 is being packaged after the listing-copy update. The previous 0.1.2 archive passed all 27-file integrity and manifest checks.
 - Local installation: 0.1.1 is installed and enabled through the existing marketplace; all 27 installed files match source. Eight existing private files, including the saved pointer, are unchanged. A process started outside the repository resolved the same workspace and matching 16-column tracker schema.
 - Fresh ChatGPT Work behavioral tests: pending; not claimed by static package validation.
-- Portal: 0.1.2 uploaded under the verified individual identity. The privacy-policy link is present, publicly readable without signing in, and metadata checks report "No findings." The skill scan is still running. Review has not been submitted and the plugin is not published; submission also requires the publisher's confirmation of terms and declarations.
+- Portal: the previous 0.1.2 draft uploaded under the verified individual identity. The privacy-policy link is present, publicly readable without signing in, and metadata checks report "No findings." The 0.1.3 metadata update is awaiting upload and fresh checks. Review has not been submitted and the plugin is not published; submission also requires the publisher's confirmation of terms and declarations.
 
 ## Sources
 
