@@ -20,6 +20,7 @@ outreach/*
 !outreach/README.md
 
 # Editor / IDE
+/dist/
 .idea/
 .vscode/
 *.swp

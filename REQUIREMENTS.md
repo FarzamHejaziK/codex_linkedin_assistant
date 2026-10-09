@@ -45,3 +45,9 @@ A CSV editor such as Numbers, Excel, or LibreOffice is optional. The normal dash
 The local package uses skills and existing Codex filesystem/browser tools. No hooks, server, API key, or background service is needed. Install using the README commands, then invoke the plugin in a new local chat. The session needs access to the saved workspace and `<user-home>/.config/codex-job-search-assistant/workspace.json`; installation alone does not grant filesystem access outside a restricted workspace. If access is blocked, open the registered workspace in a local chat or grant only the needed access through Codex's normal controls.
 
 The package can be updated independently of the workspace. This local-only design does not assume cloud chats can access your computer or synchronize files.
+
+## ChatGPT Work and Directory Distribution
+
+The same skills-only package can be submitted to the public directory shared by ChatGPT and Codex. Use a desktop/local Work session with access to the selected workspace and configuration pointer. Browser-dependent workflows additionally require the supported browser tools and relevant account sign-in. A cloud-only session cannot use this machine's files without authorized local computer access; installing a plugin does not grant that access.
+
+Public distribution requires developer identity verification, package validation, skill scans, review, and publication. Local installation is not directory approval. Follow [.docs/plugin-publication.md](.docs/plugin-publication.md) for the current release status and validation limits.
