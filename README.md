@@ -5,7 +5,7 @@
 <p align="center">
   <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-green.svg"></a>
   <img alt="Codex App" src="https://img.shields.io/badge/Codex%20App-Ready-111827">
-  <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-via%20Codex%20Chrome-0A66C2?logo=linkedin&logoColor=white">
+  <img alt="LinkedIn" src="https://img.shields.io/badge/LinkedIn-via%20Codex%20Browser-0A66C2?logo=linkedin&logoColor=white">
   <img alt="Prompt First" src="https://img.shields.io/badge/Prompt--First-Markdown-blue">
   <a href="CONTRIBUTING.md"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
   <img alt="Maintained" src="https://img.shields.io/badge/Maintained-yes-success">
@@ -27,29 +27,21 @@ A Codex job-search assistant. Track jobs in a single CSV, discover openings via 
 
 > **Scope on purpose:** Codex handles the repetitive organization, drafting, browser navigation, and file preparation. You approve anything externally visible or judgment-heavy: messages, emails, uploads, applications, sensitive screening answers, and final submissions.
 
-This is intentionally prompt-first: Markdown instructions and local files, no helper programs or hidden services.
+This is intentionally prompt-first: a local plugin with Markdown instructions and private workspace files, no helper programs or hidden services. Speak naturally; the `jobs ...` commands are optional shortcuts.
 
 Looking for the Claude Code version? See [claude-linkedin-assistant](https://github.com/FarzamHejaziK/claude-linkedin-assistant).
 
 ## Prerequisites
 
-You need these before the job-search flows can work end to end:
+- **Codex desktop app** with this folder open and its built-in browser available. Local setup, tracker checks, and saved-source preparation also work without browser access.
+- **LinkedIn sign-in in the selected browser** before LinkedIn discovery or outreach. The built-in browser has a separate profile from your regular Chrome session, so you may need to sign in there.
+- **Git** to clone and update the repository. Daily work is not automatically committed.
 
-- **[Codex app](https://developers.openai.com/codex/app)** - open this repository in the Codex desktop app so Codex can read and write the local workspace files. The browser-only experience is not enough for this repo because the assistant needs local resumes, tracker files, application folders, and git commits.
-- **[Codex Chrome extension](https://developers.openai.com/codex/app/chrome-extension)** - this lets Codex use your signed-in Chrome session for LinkedIn, Gmail, company career pages, and ATS forms. Set it up from Codex with `Codex -> Plugins -> Chrome`, follow the setup flow, then confirm the Chrome toolbar extension shows `Connected`.
-- **Chrome signed in to LinkedIn** - use the same Chrome profile where the Codex extension is connected.
-- **Git** - used to clone the repo and create end-of-day commits.
+**Chrome is optional.** Use connected Chrome when you explicitly want an existing tab/profile, the built-in browser is unavailable, or a required capability needs it. The default experience does not require installing a Chrome extension.
 
-Optional:
+The built-in browser can be invoked with `@Browser`; `@Chrome` selects connected Chrome. Automated uploads in the built-in browser are currently documented as unsupported, so Codex prepares the resume and hands the attachment step to you, then verifies it before continuing. See [OpenAI's browser documentation](https://learn.chatgpt.com/docs/browser?surface=app) and [browser requirements](REQUIREMENTS.md).
 
-- **Indeed account** - sign into [indeed.com](https://www.indeed.com/) in the same Chrome profile if you want Indeed discovery or Indeed profile optimization. Indeed is disabled by default and can be enabled during `jobs setup`.
-
-For resume uploads and referral/application attachments, also enable file access:
-
-```text
-Chrome -> Extensions -> Manage Extensions -> Codex extension -> Details
-Allow access to file URLs
-```
+Indeed remains optional and disabled by default; enable it later with `jobs indeed-setup`.
 
 ## Quick Start
 
@@ -60,191 +52,106 @@ git clone https://github.com/FarzamHejaziK/codex_linkedin_assistant.git
 cd codex_linkedin_assistant
 ```
 
-Open the folder in Codex. Codex reads:
+Open the folder in Codex and say **“Help me get started”** or `jobs setup`. The repository entrypoint still works.
 
-```text
-AGENTS.md
+To make the plugin available in other local Codex chats, register and install the local package from this repository directory:
+
+```bash
+codex plugin marketplace add .
+codex plugin add job-search-assistant@codex-job-search-local
 ```
 
-That file points to the project skill:
+Start a new chat if the current chat has not refreshed its available plugins. The installable package is only `plugins/job-search-assistant/`; do not zip or copy your whole working repository into a plugin release.
 
-```text
-.agents/skills/jobs/SKILL.md
-```
+### 2. Add your resume and search essentials
 
-### 2. Add your resume
+On first use, select an existing job-search workspace or create a local folder. The assistant remembers its location separately from the plugin. Your existing repository workspace can be reused without moving its files.
 
-Best path: attach/upload your resume in Codex chat during `jobs setup`, or paste its absolute local file path. Codex should copy it into `resumes/` for you.
+Attach a resume in chat or give its absolute local path. Codex copies it into `resumes/`, extracts known information, and asks only for missing target roles, location/remote preference, and dealbreakers. PDF, DOCX, LaTeX, Markdown, and HTML are supported sources.
 
-You can also put one or more resume files in:
+Codex creates the local search/profile files for you. Compensation can be added now or later. Application-specific questions, editable resume formats, upload permissions, and optional Indeed setup are handled when needed.
 
-```text
-resumes/
-```
+### 3. Get your first matches
 
-Supported formats:
+Say **“Find three roles that fit my resume.”** Codex uses the built-in browser by default and checks the signed-in LinkedIn identity before searching. Each match includes fit evidence, a gap, unknown details, and a next step.
 
-- `.pdf`
-- `.tex`
-- `.docx`
-- `.md`
-- `.html`
-
-### 3. Add search preferences
-
-Codex can create this for you during setup by asking about target roles, locations, salary, work authorization, sponsorship, and dealbreakers.
-
-Optional manual file:
-
-```text
-resumes/search_profile.md
-```
-
-Use it for must-haves, deal-breakers, locations, salary floor, level, industries, company stage, and role preferences.
-
-### 4. Confirm browser file access
-
-For application uploads and referral materials:
-
-```text
-Chrome -> Extensions -> Manage Extensions -> Codex extension -> Details
-Allow access to file URLs
-```
-
-### 5. Run setup
-
-```text
-jobs setup
-```
-
-If no real resume is present yet, setup should pause and ask you to upload one here, paste an absolute local path, or drag a file into `resumes/`. After that, Codex should ask onboarding questions and create the search/profile files itself.
-
-Setup also asks whether you want optional Indeed support:
-
-- Choose `no` or `later` to keep the workflow LinkedIn + web/company-board search only.
-- Choose `yes` to add Indeed discovery.
-- If Indeed discovery is enabled, profile optimization is offered as a separate optional step. Every public-facing profile edit is shown before saving.
-
-### 6. Run daily
-
-```text
-jobs daily
-```
-
-`jobs daily` is the main orchestrator. It checks the tracker, applies to ready jobs with approval, runs referral workflows, discovers new jobs, instant-applies no-referral jobs with approval, commits, and summarizes the day.
+If browser access is unavailable, local setup and tracker checks still work. Browser readiness is reported separately.
 
 ## How it works
 
-The assistant is built around local files:
+- `job_tracker.csv` is the private, local source of truth for job state.
+- The plugin bundles a header-only tracker template; setup creates a working tracker only for first-use initialization or explicit recovery. The root `job_tracker.example.csv` remains a public example.
+- `resumes/` stores resume sources and search preferences.
+- `profile/` stores reusable application details, screening answers, and `session.md` progress.
+- `applications/` and `outreach/` store materials and contact evidence.
+- `AGENTS.md` routes to the repository skill, which forwards to the same canonical skill shipped by the plugin.
 
-- `job_tracker.csv` is the source of truth.
-- `resumes/` describes who you are and what jobs fit.
-- `profile/` stores reusable application fields and screening answers.
-- `base_resumes/` can hold editable resume sources.
-- `applications/` stores per-job materials.
-- `outreach/` stores referral contact logs.
-- `.agents/skills/jobs/references/` contains workflow instructions.
+There is no database or app build. The dashboard is rendered in chat from local files. Saved progress records completed steps and pending work; the tracker remains authoritative for job state.
 
-There is no database. Open the CSV and folders to inspect the current state.
+Before browser-dependent steps, Codex verifies the selected browser and the relevant account. For LinkedIn work, the active profile must match the resume. Codex browser-bound Computer Use is supported; a Chrome extension is not required for the built-in browser. Local checks and preparation from saved sources need no browser. LinkedIn remains the primary discovery source; company boards and web search supplement it, with Indeed optional. If LinkedIn is blocked, switching discovery sources requires your approval.
 
-At the start of every operational `jobs ...` workflow, Codex should confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile name matches the name on the resume. Installing the Chrome extension is not the same as exposing a working Chrome connection to a Codex session; both have to be true. If Chrome-specific tools are not exposed or not communicating after discovery/connection attempts, Codex should explain the exact state and help you reconnect Chrome instead of falling back to Computer Use. If the resume is missing, setup pauses for resume intake first.
+## Local persistence across chats
 
-LinkedIn remains the primary discovery source. Indeed is optional. When enabled, `jobs find` adds Indeed search, best-effort Indeed recommendations, and user-pasted Career Scout recommendations after the LinkedIn search pass. If Indeed is blocked or unavailable, the rest of the workflow continues.
+The assistant records the selected workspace in `<user-home>/.config/codex-job-search-assistant/workspace.json`. That private pointer and the matching `profile/workspace.json` marker let new local chats find the same tracker, preferences, files, and pending progress. These are this assistant's own local files; no account, cloud database, or server is added.
 
-## Repository Structure
+Instructions/templates come from the plugin; all candidate data comes from the saved workspace. An unrelated chat directory does not become a new job-search workspace. A missing directory, invalid pointer, mismatched identity, or missing registered tracker produces a recovery message instead of a silent reset.
 
-```text
-Codex_Linkedlin_assistant/
-├── AGENTS.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── MAINTAINERS.md
-├── README.md
-├── REQUIREMENTS.md
-├── SECURITY.md
-├── job_tracker.csv
-├── .gitignore
-├── assets/
-│   ├── logo-animation.gif
-│   └── logo.png
-├── .github/
-│   ├── CODEOWNERS
-│   └── PULL_REQUEST_TEMPLATE.md
-├── .docs/
-│   ├── PRD.md
-│   └── plan.md
-├── .agents/
-│   └── skills/
-│       └── jobs/
-│           ├── SKILL.md
-│           └── references/
-│               ├── apply.md
-│               ├── browser-preflight.md
-│               ├── check.md
-│               ├── daily.md
-│               ├── find.md
-│               ├── indeed.md
-│               ├── overview.md
-│               ├── referral.md
-│               ├── resume-backends.md
-│               ├── setup.md
-│               ├── tracker-schema.md
-│               ├── workspace-files.md
-│               └── writing-style.md
-├── resumes/
-│   ├── README.md
-│   └── search_profile.example.md
-├── profile/
-│   ├── personal_info.example.json
-│   └── screening_answers.example.md
-├── base_resumes/
-│   └── README.md
-├── applications/
-│   └── README.md
-└── outreach/
-    └── README.md
-```
+Plugin updates and removal leave the external workspace alone. To relocate it, move the workspace locally and ask the assistant to relink that folder. To change the default, say so explicitly. The same files must be accessible to the new session; this is local persistence, not cross-device sync. Keep one modifying workflow active per workspace.
+
+See the [persistence contract](plugins/job-search-assistant/skills/jobs/references/local-persistence.md) for initialization and recovery rules.
 
 ## What it does
 
-| Intent | What it does |
-|---|---|
-| `jobs setup` | Verifies workspace files, tracker schema, resume intake, resume backend, and browser preflight |
-| `jobs check` | Shows dashboard, deadlines, ready-to-apply jobs, and outreach queues |
-| `jobs find` | Searches LinkedIn Jobs in Chrome first, supplements with web/company boards and optional Indeed, or intakes a pasted job link |
-| `jobs referral` | Handles replies, referral materials, email-vs-LinkedIn decisions, follow-ups, outreach, and deadlines |
-| `jobs apply` | Prepares materials, tailors resume when possible, fills forms, uploads files, and submits after approval |
-| `jobs daily` | Runs the daily sequence and commits at the end when appropriate |
-| `jobs indeed-setup` | Enables/retries optional Indeed discovery or optimizes the Indeed profile from local resume/profile data |
+| Say this | Shortcut | Result |
+|---|---|---|
+| Help me get started | `jobs setup` | Resume intake and essential search preferences |
+| What needs my attention? | `jobs check` | Up to three recommended actions with reasons and blockers |
+| Find five remote roles / Track this job link | `jobs find` | Explained matches or manual-link intake |
+| Prepare three applications | `jobs apply` | Local materials only; no upload or submission |
+| Help me apply to this role | `jobs apply` | Materials and form preparation, followed by explicit review |
+| Help with referrals | `jobs referral` | Reply handling, drafts, follow-ups, and deadlines |
+| I have 15 minutes for my search | `jobs daily` | A scoped run with saved progress |
+| Enable Indeed | `jobs indeed-setup` | Optional additional discovery and separate profile optimization |
+| Continue | Existing workflow | Resume after reconciling saved progress and confirmed outcomes |
 
-There is no standalone `jobs add` or `jobs update`.
+There is no standalone `jobs add` or `jobs update`. Ask for the full dashboard when you want all queues. Tell Codex why a match is wrong to refine preferences; a single-job skip does not silently become a broad exclusion.
 
 ## Daily flow
 
-```text
-1. jobs check
-2. jobs apply        # ready jobs
-3. jobs referral     # replies, follow-ups, outreach, deadlines
-4. jobs find         # LinkedIn-first discovery, optional Indeed, and manual-link intake
-5. instant apply     # newly found no-referral jobs, with approval
-6. commit
-7. summary
-```
+The default daily run covers up to three distinct jobs, prioritizing urgent existing work. You can set a different count, a time allowance, or prepare-only scope.
+
+1. Read local state and recommend actions.
+2. Prepare ready applications and referral work within the selected scope.
+3. Search only if requested or the batch has room.
+4. Review concrete external actions before execution.
+5. Save progress and summarize confirmed outcomes, materials, and blockers.
+
+When you need to sign in or attach a resume manually, Codex keeps the relevant tab available, saves the pending step, and verifies page/account state when you return. Switching browsers does not transfer logins or unfinished forms.
+
+Time limits are best effort, checked between operations. A browser failure pauses browser-dependent steps while local work can continue. “Continue” resumes unfinished steps after checking what already happened. Uncertain sends or submissions are verified before retrying.
+
+Daily work does not automatically create Git commits.
+
+## Review before external actions
+
+Codex shows the action, destination, exact content or application answers, and attachment versions. You can approve, edit, or skip. Uploads can expose personal data, so they also require approval; approving an upload alone does not authorize submission. Material changes require a new review.
+
+Prepare-only requests never upload, send, submit, request connections, or save public profile edits. Confirmed outcomes are distinguished from prepared materials and uncertain attempts.
 
 ## Resume Backends
 
-| Backend | Use when | Notes |
-|---|---|---|
-| LaTeX | You maintain `.tex` resume sources | Codex can edit source and use local LaTeX tools if available |
-| DOCX | You maintain Word-style resumes | Codex can use available document tools or prepare edits for manual export |
-| Markdown/HTML | You want simple editable sources | Codex edits source and uses available export tools |
-| PDF-only | You only have a final PDF | Works as an attachment, but true tailoring needs editable source |
+| Backend | Use when |
+|---|---|
+| LaTeX | You already maintain editable `.tex` sources |
+| DOCX | You use Word-style resume sources |
+| Markdown/HTML | You want simple editable sources |
+| PDF-only | You have a final attachment; true tailoring needs editable source |
 
-Codex must never invent experience. Tailoring means truthful emphasis and wording, not fabrication.
+Choose a backend when tailoring is needed. Codex must never invent experience, credentials, dates, or metrics.
 
 ## Tracker Format
 
-Do not change the header:
+The schema remains unchanged:
 
 ```csv
 Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,Notes,Discovered Date,Referral Needed,Referral Status,Referral Deadline,Apply Via
@@ -252,34 +159,25 @@ Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,N
 
 ## Privacy
 
-Private files are ignored by default:
+The working tracker, real resumes, profile/session files, application folders, outreach logs, and base resume sources are ignored by default. Only the empty tracker template and generic examples belong in the public repository. Never force-add private files.
 
-- Real resumes
-- Real profile data
-- Screening answers
-- Application folders
-- Outreach contact logs
-- Base resume sources
-
-Do not commit private job-search data unless you intentionally change `.gitignore`.
+**Existing checkout migration:** if your tracker is still tracked, preserve a private backup before updating the repository. Ask Codex to retain the local file and remove only its Git index entry; adding an ignore rule alone does not protect tracked files. See [workspace migration](.agents/skills/jobs/references/workspace-files.md). Restoring the working file after an update does not change its schema. Previously committed data remains in Git history; this change does not rewrite history.
 
 ## Contributing
 
-Pull requests only. Direct pushes to `main` should be blocked on the public project.
-
-- See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow.
-- See [`MAINTAINERS.md`](MAINTAINERS.md) for the approval model.
-- For security reports, see [`SECURITY.md`](SECURITY.md) and do not open a public Issue.
+Pull requests only; see [CONTRIBUTING.md](CONTRIBUTING.md), [MAINTAINERS.md](MAINTAINERS.md), and [SECURITY.md](SECURITY.md). Keep changes prompt-first and private user data local.
 
 ## Design Docs
 
-- `.docs/PRD.md`
-- `.docs/plan.md`
+- [Product requirements](.docs/PRD.md)
+- [Implementation plan](.docs/plan.md)
+- [UX improvement plan and acceptance scenarios](.docs/ux-improvement-plan.md)
+- [Local plugin implementation plan](.docs/local-plugin-plan.md)
 
 ## Related
 
-- Claude Code version: [claude-linkedin-assistant](https://github.com/FarzamHejaziK/claude-linkedin-assistant)
+- [Claude Code version](https://github.com/FarzamHejaziK/claude-linkedin-assistant)
 
 ## License
 
-MIT. See [`LICENSE`](LICENSE).
+MIT. See [LICENSE](LICENSE).

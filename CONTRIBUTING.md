@@ -16,16 +16,17 @@ Thanks for contributing.
 **Pull requests only.** Direct pushes to `main` are blocked for the public project.
 
 1. **Bug fixes / small improvements**: fork, branch, open a focused PR.
-2. **Bigger changes** such as new workflows, structural changes, or anything touching multiple `.agents/skills/jobs/references/*.md` files: open an Issue first to align scope.
+2. **Bigger changes** such as new workflows, structural changes, or anything touching multiple `plugins/job-search-assistant/skills/jobs/references/*.md` files: open an Issue first to align scope.
 3. **Questions**: open an Issue.
 
 ## Before You Open a PR
 
 - Keep the PR scoped to one concern.
 - This is a prompt-first Markdown workspace. There is no app build step and no helper-code test suite.
-- If you change workflow behavior, check that `AGENTS.md`, `README.md`, `.docs/PRD.md`, `.docs/plan.md`, `.agents/skills/jobs/SKILL.md`, and the affected reference docs all agree.
+- If you change workflow behavior, check that `AGENTS.md`, `README.md`, `.docs/PRD.md`, `.docs/plan.md`, `.agents/skills/jobs/SKILL.md`, and the affected canonical reference docs all agree. Legacy .agents/skills/jobs/ files forward to the package; edit canonical instructions in plugins/job-search-assistant/skills/jobs/.
 - If you add or rename a `jobs ...` workflow, update `.agents/skills/jobs/SKILL.md`, the relevant reference file, and `README.md`.
-- Do not add helper programs, automation scripts, app code, or custom renderers for v1.
+- Plugin and marketplace manifests and empty templates are supported. Do not add helper programs, hooks, servers, automation scripts, app code, or custom renderers for v1.
+- Keep the installable package self-contained and free of private workspace/configuration data. If template schemas change, align bundled templates and root public examples.
 - Do not commit real resumes, profile data, application folders, outreach logs, or private candidate data.
 
 ## PR Description Checklist
@@ -49,7 +50,7 @@ For docs-only changes, acceptable validation is:
 - LinkedIn scraping at scale or behavior intended to bypass platform blocks, rate limits, or verification prompts.
 - Silent sending, emailing, uploading, or submitting without explicit approval gates.
 - Fabricated resume experience, credentials, metrics, dates, companies, or personal details.
-- Generic browser or Computer Use fallbacks that bypass the required Codex Chrome preflight for LinkedIn workflows.
+- Browser or desktop automation that bypasses relevant account verification or platform restrictions. Codex browser-bound Computer Use for the built-in browser and connected Chrome is supported.
 - Helper scripts or app code for v1.
 
 ## Reporting Security Issues

@@ -1,0 +1,21 @@
+{
+  "name": "job-search-assistant",
+  "version": "0.1.0",
+  "description": "Manage a local job search with persistent private files, application preparation, referrals, and browser workflows.",
+  "author": {
+    "name": "Farzam Hejazi"
+  },
+  "repository": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Job Search Assistant",
+    "shortDescription": "A job search that resumes from your local workspace",
+    "category": "Productivity",
+    "defaultPrompt": [
+      "Help me get started with my local job-search workspace.",
+      "What needs my attention in my job search?",
+      "Continue my job search from saved progress."
+    ]
+  }
+}

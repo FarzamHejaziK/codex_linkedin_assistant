@@ -10,10 +10,13 @@ profile/*
 base_resumes/*
 !base_resumes/README.md
 
+# Private working tracker (public header is job_tracker.example.csv)
+/job_tracker.csv
+
 # Generated/private job-search state
 applications/*
 !applications/README.md
-outreach/*.md
+outreach/*
 !outreach/README.md
 
 # Editor / IDE

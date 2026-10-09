@@ -21,7 +21,7 @@ This repo is a Markdown-first Codex workspace. The security surface is small but
 
 - **Instructions Codex follows** under `.agents/skills/jobs/`. A malicious PR could add instructions that exfiltrate resume/profile data, send messages without approval, or take unsafe browser actions.
 - **Project rules** in `AGENTS.md`, `.docs/`, and `README.md`.
-- **Privacy defaults** in `.gitignore`, which protect real resumes, profile files, applications, and outreach logs from accidental commits.
+- **Privacy defaults** in `.gitignore`, which protect the working tracker, real resumes, profile/session files, applications, and outreach logs from accidental commits.
 - **Browser workflow instructions**, especially anything involving LinkedIn, email, file uploads, or application submission.
 
 If you spot something that could harm a downstream user of this repo, please report it.

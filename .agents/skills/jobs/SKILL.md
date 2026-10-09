@@ -1,58 +1,12 @@
 ---
 name: jobs
-description: Run a prompt-first local job-search workspace in Codex, including setup, tracker checks, job discovery, referral orchestration, resume tailoring guidance, application submission guidance, and daily runs.
+description: Manage a local job-search workspace, including setup, tracker checks, job discovery, applications, referrals, and resuming saved progress.
 ---
 
-# Jobs Skill
+# Jobs Workspace Entrypoint
 
-Use this skill when the user asks for `jobs setup`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`, `jobs daily`, `jobs indeed-setup`, Indeed setup, Indeed profile optimization, LinkedIn outreach, resume tailoring, application tracking, referral handling, or job-search workflow help.
+This repository entrypoint forwards to the canonical Jobs skill packaged in this repository. Before an operational job-search request, read [the canonical skill](../../../plugins/job-search-assistant/skills/jobs/SKILL.md) and follow its workspace-resolution contract. Resolve that link relative to this file, not the current chat directory.
 
-This repository is prompt-first. It ships Markdown instructions and local workspace files only. Do not look for helper programs, automation scripts, browser libraries, or renderers owned by this repo. Use active Codex tools and the user's local environment at runtime.
+The installed plugin uses the same canonical skill directly. If both entrypoints are available, run the workflow once. The plugin package contains instructions and empty templates; private state belongs to the resolved user workspace.
 
-## Canonical References
-
-Design decisions live in:
-
-- `.docs/PRD.md`
-- `.docs/plan.md`
-
-Operational workflow references live in:
-
-```text
-.agents/skills/jobs/references/
-```
-
-## Required Reference Loading
-
-Before acting, read only the references needed for the user's intent:
-
-| User intent | References to read |
-|---|---|
-| `jobs setup` | `references/setup.md`, `references/workspace-files.md`, `references/browser-preflight.md`, `references/resume-backends.md`, `references/indeed.md` |
-| `jobs check` | `references/tracker-schema.md`, `references/check.md`, `references/browser-preflight.md` |
-| `jobs find` | `references/tracker-schema.md`, `references/find.md`, `references/indeed.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs apply` | `references/tracker-schema.md`, `references/apply.md`, `references/indeed.md`, `references/resume-backends.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs referral` | `references/tracker-schema.md`, `references/referral.md`, `references/browser-preflight.md`, `references/writing-style.md` |
-| `jobs daily` | `references/tracker-schema.md`, `references/daily.md`, `references/indeed.md`, `references/browser-preflight.md`, plus each referenced workflow as it runs |
-| `jobs indeed-setup` or Indeed setup/optimization | `references/indeed.md`, `references/setup.md`, `references/browser-preflight.md`, `references/resume-backends.md`, `references/writing-style.md` |
-
-If the user asks generally what this assistant does, how to start, what to do next, or appears to be in first-run onboarding, read `references/overview.md` and `references/setup.md`.
-
-## Hard Rules
-
-- `job_tracker.csv` is the source of truth for job state.
-- Keep the tracker schema exactly as defined in `references/tracker-schema.md`.
-- At the start of every operational `jobs ...` workflow, run the startup preflight in `references/browser-preflight.md`: confirm the Codex Chrome extension/tool is exposed and connected, open LinkedIn, and verify the active LinkedIn profile matches the resume name.
-- LinkedIn is mandatory and primary. Indeed is optional, disabled by default, and governed by `references/indeed.md`.
-- Do not substitute macOS Computer Use, screenshots, or generic browser automation for the Codex Chrome extension/tool during LinkedIn preflight. If Chrome-specific tools are not exposed, help the user connect/install them and stop the workflow.
-- Do not mention `mcp__chrome`, MCP namespaces, or Claude-style tool namespaces in user-facing messages. Use Codex terms: Chrome skill/tool, Codex Chrome extension, and active Codex session.
-- If the available skills/plugins list includes Chrome, treat that as a Chrome path to try. Do not stop at preflight before invoking the Chrome skill/tool connection checks.
-- There is no standalone `jobs add` workflow. Manual job links are handled by `jobs find`.
-- There is no standalone `jobs update` workflow. Status changes happen through workflow outcomes or direct CSV edits by the user.
-- Never invent resume experience, credentials, metrics, companies, dates, or personal details.
-- Keep all user-specific resume, profile, outreach, and application state local.
-- Ask for explicit approval before sending messages, sending emails, submitting applications, or answering sensitive/ambiguous screening questions.
-- File uploads are allowed only after Codex browser access is ready and Chrome extension file URL access has been enabled.
-- Referral is an orchestrator, not a router.
-- First-run setup should be interactive. Do not tell the user to manually create profile/search files when Codex can ask questions and create them.
-- Indeed profile optimization edits public-facing fields. Show proposed section changes and ask approval before each section save.
+For development of the assistant itself, use the repository's `.docs/PRD.md` and `.docs/plan.md`; do not initialize a candidate workspace merely to edit the plugin.
