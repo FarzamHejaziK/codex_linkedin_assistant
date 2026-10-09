@@ -1,93 +1,47 @@
 # Requirements & Setup
 
-This repo is designed to be opened directly in the Codex app with Chrome connected for LinkedIn and application workflows.
+Open this workspace in the Codex desktop app. AGENTS.md points to the compatible `.agents/skills/jobs/SKILL.md` entrypoint; the installable canonical skill lives in `plugins/job-search-assistant/skills/jobs/`. The repository supplies Markdown instructions and local files; it does not install a browser service or automation scripts.
 
-## Required
+## Default: Codex Built-In Browser
 
-### Codex App
+Use the built-in browser exposed to the active Codex session, including through `@Browser`. Codex verifies that it can open and inspect a page before reporting readiness. For LinkedIn work, sign in to LinkedIn in that browser and verify the active profile against the resume. Other services need their own relevant account check.
 
-Install and use the [Codex app](https://developers.openai.com/codex/app), then open this folder in Codex. Codex reads `AGENTS.md`, which points to the project-local skill at:
+The built-in browser uses a separate profile from your regular browser; Chrome sign-in does not establish built-in sign-in. Use the browser's normal sign-in UI and permissions. Do not paste passwords or session cookies into workspace files.
 
-```text
-.agents/skills/jobs/SKILL.md
-```
+Local setup, tracker checks, and preparing materials from saved sources do not require a browser. If a browser is unavailable, Codex explains which step is blocked and continues useful local work.
 
-### Codex Chrome Extension
+## Attachments
 
-Install and connect the [Codex Chrome extension](https://developers.openai.com/codex/app/chrome-extension). The extension lets Codex use your signed-in Chrome profile for LinkedIn, Gmail, company career pages, and ATS forms.
+OpenAI currently documents automated uploads in the built-in browser as unsupported. The normal flow is:
 
-Setup path:
+1. Codex prepares the exact resume/attachment and links it locally.
+2. You attach it to the identified form in the retained browser tab.
+3. Codex reads back the attachment/form state and presents any remaining review before submission.
 
-```text
-Codex -> Plugins -> Chrome
-```
+This is an upload handoff, not an instruction to submit. Use automation only when current browser-specific documentation and the active tool support it. A generic file-chooser API alone does not establish support. See [OpenAI Browser documentation](https://learn.chatgpt.com/docs/browser?surface=app), checked 2026-10-08.
 
-Follow the setup flow, then open Chrome and confirm the Codex extension shows `Connected`.
+## Optional: Connected Chrome
 
-The assistant requires this Chrome extension/tool path for LinkedIn preflight. Installing the extension in Chrome is necessary but not always sufficient: the active Codex session also has to expose a working Chrome skill/tool connection to the agent.
+Use Chrome when the user selects @Chrome or an existing Chrome tab/profile, or when a supported alternative is needed for a capability. Follow the active Chrome tool's connection guidance and [official browser-extension instructions](https://learn.chatgpt.com/docs/chrome-extension). Check connectivity before saying the extension is missing.
 
-If a Codex session says Chrome-specific tools are not exposed or not communicating, it does not necessarily mean the extension is missing. It can also mean Chrome is closed, Codex is attached to a different Chrome profile, the extension/native-host connection failed, or the current Codex session was opened before Chrome was connected. Reconnect Chrome from `Codex -> Plugins -> Chrome`, keep Chrome open in the right profile, then restart the session or reopen the repo and rerun the command. Computer Use is not a substitute for the LinkedIn preflight check.
+When using an extension upload path that requires local file access, enable the extension's **Allow access to file URLs** setting in Chrome's extension details. That setting applies to Chrome, not the built-in browser. Verify upload support, exact file/destination approval, and the resulting attachment.
 
-### Chrome + LinkedIn Login
+After switching browsers, reverify the account, role, and form. Do not assume login or draft form state transfers. Do not switch browsers to evade site restrictions or denied access.
 
-Use the same Chrome profile where the Codex extension is connected, then sign in to LinkedIn. The assistant will compare the LinkedIn profile name with the resume name before browser-dependent workflows.
+## Optional Indeed
 
-For file uploads, enable local file URL access for the Codex Chrome extension:
+Indeed is disabled by default. Ask to enable it later or use `jobs indeed-setup`. Sign in to the selected browser when needed. Public profile optimization is separately optional. An Indeed block affects only Indeed.
 
-```text
-Chrome -> Extensions -> Manage Extensions -> Codex extension -> Details
-Allow access to file URLs
-```
+## Local Files and Resume Sources
 
-If this is not enabled, Codex should stop before upload steps.
+Git is used to clone/update the repository; daily work is not automatically committed. First-use setup creates private, ignored `job_tracker.csv` from the bundled template. Missing state in a registered workspace requires explicit recovery. Follow README migration guidance before updating an older checkout with a tracked working file.
 
-### Git
+Start with “Help me get started,” attach a resume or give its absolute local path, and answer only missing target-role, location/remote, and dealbreaker questions. Codex creates local files. Choose an editable resume backend when tailoring is needed; PDF-only attachments are supported, with tailoring limitations. Available local document/export tools determine rendering options.
 
-Git is used for end-of-day commits.
+A CSV editor such as Numbers, Excel, or LibreOffice is optional. The normal dashboard appears in chat.
 
-```bash
-git --version
-```
+## Local Plugin and File Access
 
-## Optional
+The local package uses skills and existing Codex filesystem/browser tools. No hooks, server, API key, or background service is needed. Install using the README commands, then invoke the plugin in a new local chat. The session needs access to the saved workspace and `<user-home>/.config/codex-job-search-assistant/workspace.json`; installation alone does not grant filesystem access outside a restricted workspace. If access is blocked, open the registered workspace in a local chat or grant only the needed access through Codex's normal controls.
 
-### Indeed Login
-
-If you want Indeed discovery or Indeed profile optimization, sign into [indeed.com](https://www.indeed.com/) in the same Chrome profile where the Codex extension is connected.
-
-No Indeed API key is required. Codex uses the browser session through the Codex Chrome extension.
-
-Indeed is disabled by default. `jobs setup` asks whether to enable it. If Indeed shows CAPTCHA, blocks automation, or is unavailable, Codex should skip Indeed and continue with LinkedIn, web/company-board search, referrals, and applications.
-
-## Recommended
-
-### CSV Editor
-
-Use any of:
-
-- Numbers
-- Excel
-- LibreOffice
-- VS Code with a CSV editor extension
-
-### Resume Tooling
-
-Choose the backend that matches your resume source:
-
-- LaTeX: `pdflatex` or `latexmk`
-- DOCX: Word, LibreOffice, or available document tooling
-- Markdown/HTML: browser or local PDF export tooling
-- PDF-only: works as an attachment, but editable source is required for true tailoring
-
-## First Run
-
-1. Start with:
-
-```text
-jobs setup
-```
-
-2. If setup does not find a real resume, upload it in Codex chat, paste an absolute local file path, or drag the file into `resumes/`.
-3. Answer the onboarding questions. Codex should create `resumes/search_profile.md`, `profile/personal_info.json`, and `profile/screening_answers.md` for you instead of telling you to create them manually.
-
-The resume is required before LinkedIn profile verification, search matching, referral messaging, or application workflows.
+The package can be updated independently of the workspace. This local-only design does not assume cloud chats can access your computer or synchronize files.

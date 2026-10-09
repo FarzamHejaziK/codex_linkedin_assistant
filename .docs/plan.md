@@ -1,136 +1,35 @@
-# Implementation Plan: Repo-First Codex Job Search Assistant
+# Implementation Plan: Prompt-First Job Search Assistant
 
-## 1. Direction
+## Current Direction
 
-This repository should behave like a normal Codex workspace, not a separately installed package. The user opens the repo in Codex, and Codex follows `AGENTS.md` plus the project-local skill in `.agents/skills/jobs/`.
+The repository develops the self-contained local plugin at plugins/job-search-assistant/. Keep AGENTS.md and .agents/skills/jobs/ as compatible repository entrypoints. Canonical workflow instructions and templates live inside the plugin; persistent candidate data lives in a separately resolved user workspace. Preserve existing commands and the exact tracker schema. No helper programs, scripts, app code, custom renderers, or separate service.
 
-Keep v1 prompt-first:
+Local packaging, persistence, and installation are specified in [local-plugin-plan.md](local-plugin-plan.md).
 
-- Markdown instructions.
-- Markdown reference docs.
-- Root workspace files and examples.
-- No helper programs, automation scripts, app code, or custom renderers.
+The current UX work is specified in [ux-improvement-plan.md](ux-improvement-plan.md), including implementation order, acceptance scenarios, and validation results.
 
-## 2. Repository Shape
+## Instruction Surfaces
 
-Use this structure:
+- AGENTS.md: privacy, scoped approvals, browser-only preflight, and source-of-truth rules.
+- Packaged SKILL.md / local-persistence.md: workspace resolution, natural-language routing, and required reference loading.
+- experience.md: intent mapping, scope, local readiness, and preference feedback.
+- setup.md / overview.md: progressive first-run guidance.
+- check.md: three recommended actions, full dashboard on request.
+- find.md: LinkedIn-first discovery, manual links, fit evidence, and limits.
+- apply.md / referral.md / approvals.md: preparation, concrete reviews, execution evidence.
+- daily.md / session.md: scoped orchestration and reliable continuation.
+- browser-preflight.md / indeed.md / resume-backends.md: capability-specific rules, built-in browser default, optional Chrome, relevant account verification, and manual upload handoffs where required.
+- tracker-schema.md / workspace-files.md: unchanged schema, private tracker, safe migration.
+- writing-style.md: outgoing copy and truthful materials.
 
-```text
-AGENTS.md
-README.md
-REQUIREMENTS.md
-CONTRIBUTING.md
-LICENSE
-MAINTAINERS.md
-SECURITY.md
-job_tracker.csv
-.gitignore
-.github/
-  CODEOWNERS
-  PULL_REQUEST_TEMPLATE.md
-.docs/
-  PRD.md
-  plan.md
-.agents/
-  skills/
-    jobs/
-      SKILL.md
-      references/
-        overview.md
-        setup.md
-        tracker-schema.md
-        browser-preflight.md
-        resume-backends.md
-        check.md
-        find.md
-        indeed.md
-        apply.md
-        referral.md
-        daily.md
-        writing-style.md
-        workspace-files.md
-resumes/
-  README.md
-  search_profile.example.md
-profile/
-  personal_info.example.json
-  screening_answers.example.md
-base_resumes/
-  README.md
-applications/
-  README.md
-outreach/
-  README.md
-```
+## Public and Private Files
 
-## 3. Root Contract
+Publish job_tracker.example.csv with the canonical header only. Authorized first-use setup creates ignored job_tracker.csv from the bundled template; missing registered files require recovery. Retain any existing working file when removing its index entry. Ignore real resumes, profile/session files, application materials, all outreach formats, and base resume sources. Never force-add private files or automatically commit daily state. Do not rewrite history as part of this change.
 
-`AGENTS.md` is the project contract loaded by Codex. It must:
+## Validation
 
-- Describe the repo as a generic Codex job-search assistant.
-- Point to `.agents/skills/jobs/SKILL.md`.
-- Name `.docs/PRD.md` and `.docs/plan.md` as canonical design docs.
-- Define hard rules: tracker source of truth, no fabricated experience, approval gates, privacy, no standalone add/update.
+Read changed instructions end to end; walk representative onboarding, local-check, prepare-only, limited-daily, interrupted-resume, feedback, and approval scenarios. Inspect diff for contradictions, private data, and unintended changes. Verify the public header equals the original schema, the working tracker contents are unchanged, private paths are ignored, and a fresh copy can initialize the tracker from the template. No live job-search or sending/submission is needed for this documentation change.
 
-## 4. Skill Contract
+## Delivery
 
-`.agents/skills/jobs/SKILL.md` is the workflow entrypoint. It must:
-
-- Trigger on `jobs setup`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`, `jobs daily`, LinkedIn outreach, resume tailoring, referral handling, and application tracking.
-- Load only the needed reference docs for each intent.
-- Route manual job links through `jobs find`.
-- Treat referral as an orchestrator.
-- Keep all work generic and local.
-
-## 5. Root Workspace Files
-
-Root files replace templates:
-
-- `job_tracker.csv` contains only the canonical header.
-- `.gitignore` protects private search data.
-- `README.md` explains installation-free Codex usage.
-- `REQUIREMENTS.md` explains Codex, Chrome, file URL access, git, optional resume tooling, and CSV editors.
-- `CONTRIBUTING.md`, `LICENSE`, `SECURITY.md`, `MAINTAINERS.md`, and `.github/` provide public-repo governance matching the Claude assistant pattern.
-- Folder README/example files explain how each workspace area is used.
-
-## 6. Workflow References
-
-Move the existing Markdown workflow references to `.agents/skills/jobs/references/` and keep them prompt-only:
-
-- `setup.md`: workspace setup and file URL preflight.
-- `tracker-schema.md`: schema and canonical values.
-- `browser-preflight.md`: mandatory startup Codex Chrome extension/tool connection and LinkedIn profile-match checks, explicit no-Computer-Use fallback rule, plus upload readiness.
-- `resume-backends.md`: LaTeX, DOCX, Markdown/HTML, PDF-only.
-- `check.md`: dashboard.
-- `find.md`: LinkedIn-first discovery, optional Indeed, supplemental web/company-board search, and manual-link intake.
-- `indeed.md`: optional Indeed setup, profile optimization, active search, recommendation harvest, Career Scout intake, and fail-soft rules.
-- `apply.md`: application folders, resume material, forms, uploads, approval.
-- `referral.md`: replies, materials, email-vs-LinkedIn, follow-ups, outreach, deadlines.
-- `daily.md`: check, apply, referral, find, instant no-referral apply, commit.
-- `writing-style.md`: outgoing-message and resume/cover-letter rules.
-- `workspace-files.md`: folder layout and privacy defaults.
-
-## 7. Validation Plan
-
-After implementation:
-
-- Confirm there is no package-only structure or marketplace metadata.
-- Confirm `.agents/skills/jobs/SKILL.md` and references exist.
-- Confirm root `AGENTS.md`, `README.md`, `REQUIREMENTS.md`, `.gitignore`, and `job_tracker.csv` exist.
-- Confirm public-repo governance files exist: `LICENSE`, `CONTRIBUTING.md`, `SECURITY.md`, `MAINTAINERS.md`, `.github/CODEOWNERS`, and `.github/PULL_REQUEST_TEMPLATE.md`.
-- Confirm `job_tracker.csv` header exactly matches the schema.
-- Search for stale metadata terms from the previous architecture and remove them.
-- Search for stale assistant-source terms and private user strings.
-- Confirm Indeed is optional, disabled by default, and governed by prompt-only Markdown references.
-- Confirm no real resume/profile/outreach/application data is committed.
-- Confirm no `.py`, `.sh`, `.js`, `.ts`, or app-code files exist.
-
-## 8. Git Plan
-
-Commit with:
-
-```text
-repo: finalize Codex workspace assistant
-```
-
-Then push `main` to `origin`.
+Work locally and provide the completed plan and validation evidence. Contributions go through a branch/PR when publication is requested. Do not push directly to main or publish private data.

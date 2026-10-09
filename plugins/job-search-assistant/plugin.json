@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "job-search-assistant",
+  "version": "0.1.0",
+  "description": "Manage a local job search with persistent private files, application preparation, referrals, and browser workflows.",
+  "author": {
+    "name": "Farzam Hejazi"
+  },
+  "repository": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
+  "license": "MIT"
+}

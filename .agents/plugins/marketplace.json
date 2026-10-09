@@ -1,0 +1,20 @@
+{
+  "name": "codex-job-search-local",
+  "interface": {
+    "displayName": "Local Job Search Assistant"
+  },
+  "plugins": [
+    {
+      "name": "job-search-assistant",
+      "source": {
+        "source": "local",
+        "path": "./plugins/job-search-assistant"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

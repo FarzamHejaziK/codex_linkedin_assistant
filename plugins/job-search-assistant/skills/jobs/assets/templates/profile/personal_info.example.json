@@ -1,0 +1,31 @@
+{
+  "full_name": "",
+  "email": "",
+  "phone": "",
+  "location": {
+    "city": "",
+    "state": "",
+    "country": "",
+    "postal_code": ""
+  },
+  "linkedin_url": "",
+  "portfolio_url": "",
+  "github_url": "",
+  "work_authorization": "",
+  "sponsorship_required": "",
+  "salary_expectations": {
+    "minimum": "",
+    "preferred": "",
+    "currency": ""
+  },
+  "notice_period": "",
+  "relocation": "",
+  "onsite_remote_preferences": "",
+  "demographic_disclosures": {
+    "gender": "",
+    "ethnicity": "",
+    "veteran_status": "",
+    "disability_status": ""
+  },
+  "work_preferences": {}
+}
