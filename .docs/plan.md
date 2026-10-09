@@ -6,6 +6,8 @@ The repository develops the self-contained local plugin at plugins/job-search-as
 
 Local packaging, persistence, and installation are specified in [local-plugin-plan.md](local-plugin-plan.md).
 
+Public listing preparation, package-only ZIP creation, release checks, and directory submission are specified in [plugin-publication.md](plugin-publication.md). Distribution adds metadata/assets and a data-handling notice; it does not add hosted tools, cloud storage, or runtime code.
+
 The current UX work is specified in [ux-improvement-plan.md](ux-improvement-plan.md), including implementation order, acceptance scenarios, and validation results.
 
 ## Instruction Surfaces

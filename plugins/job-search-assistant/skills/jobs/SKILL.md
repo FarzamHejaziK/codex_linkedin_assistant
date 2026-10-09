@@ -1,13 +1,13 @@
 ---
 name: jobs
-description: Run a prompt-first local job-search workspace in Codex, including setup, tracker checks, job discovery, referral orchestration, resume tailoring guidance, application submission guidance, and daily runs.
+description: Manage a local job-search workspace in Codex or ChatGPT Work, including setup, tracker checks, discovery, application preparation, referrals, and resuming saved progress. Requires access to the user's local files.
 ---
 
 # Jobs Skill
 
 Use this skill when the user asks for `jobs setup`, `jobs check`, `jobs find`, `jobs apply`, `jobs referral`, `jobs daily`, `jobs indeed-setup`, Indeed setup, Indeed profile optimization, LinkedIn outreach, resume tailoring, application tracking, referral handling, or job-search workflow help.
 
-This local plugin is prompt-first. It ships Markdown instructions, manifests, and empty templates only. Do not look for helper programs, automation scripts, browser libraries, or renderers owned by this repo. Use active Codex tools and the user's local environment at runtime.
+This local plugin is prompt-first. It ships Markdown instructions, manifests, presentation assets, and generic templates. Do not look for helper programs, automation scripts, browser libraries, or renderers owned by this repo. Use available tools and the user's local environment in Codex or ChatGPT Work. Installing the plugin does not grant access to local files, browsers, or accounts. If the selected environment cannot access the user's computer, explain the limitation before workspace setup; never initialize a replacement in a cloud sandbox.
 
 ## Workspace Resolution
 

@@ -25,11 +25,17 @@ resumes/ holds candidate sources/preferences; profile/ holds answers and private
 
 ## Local Plugin Persistence
 
-The package is isolated under plugins/job-search-assistant/ and contains only instructions, manifests, a license, and empty templates. The source repository's local marketplace points only to that subtree. Legacy workspace entrypoints forward to the canonical package rather than duplicating operational rules.
+The package is isolated under plugins/job-search-assistant/ and contains only instructions, manifests, original presentation assets, a license, a data-handling notice, and generic templates. The source repository's local marketplace points only to that subtree. Legacy workspace entrypoints forward to the canonical package rather than duplicating operational rules.
 
 Persist workspace location/identity in `<user-home>/.config/codex-job-search-assistant/workspace.json`, with a matching ignored profile/workspace.json marker. This is a plugin-owned local convention, not a Codex config key. Every new operational chat resolves and validates it, then reads the selected workspace. Never treat the plugin cache or current chat directory as the implicit data root. Permission failures, moved paths, ID mismatches, and unsupported versions are explicit recovery cases.
 
 Keep CSV job state authoritative and progress in profile/session.md. No automatic initialization on plugin version changes, uninstall deletion of private files, cloud backend, or scheduling. Use one modifying workflow at a time; prompt-first file operations do not provide transactional multi-writer guarantees.
+
+## Public Plugin Distribution
+
+Prepare the same skills-only package for the shared ChatGPT/Codex directory. Public listing metadata and icons live in the portable manifest's OpenAI extension, with matching Codex compatibility fields. Ship only the plugin subtree; generated ZIPs remain ignored. Directory installation does not grant file/browser/account access. Local persistence requires a supported session with access to the selected computer's files, including ChatGPT Work on desktop. Publishing does not add cloud storage or a hosted MCP service.
+
+Keep local validation, live ChatGPT Work behavior, OpenAI scans, review, and publication as separate statuses. Do not claim public availability or tested platform support beyond observed evidence. See plugin-publication.md for the release procedure and current evidence.
 
 ## 5. Tracker Schema
 

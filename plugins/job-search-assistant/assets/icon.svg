@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <title>Job Search Assistant</title>
+  <desc>A white briefcase with a mint checkmark on a navy background.</desc>
+  <rect width="512" height="512" rx="112" fill="#142B3A"/>
+  <path d="M190 172v-28a24 24 0 0 1 24-24h84a24 24 0 0 1 24 24v28" stroke="#F7FAFC" stroke-width="24" stroke-linecap="round"/>
+  <rect x="88" y="178" width="336" height="224" rx="38" fill="#F7FAFC"/>
+  <path d="M100 258c88 50 224 50 312 0" stroke="#142B3A" stroke-width="14"/>
+  <rect x="238" y="258" width="36" height="52" rx="12" fill="#142B3A"/>
+  <circle cx="373" cy="373" r="77" fill="#69E0C1" stroke="#142B3A" stroke-width="14"/>
+  <path d="m340 374 22 22 44-47" stroke="#142B3A" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

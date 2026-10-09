@@ -1,7 +1,7 @@
 {
   "name": "job-search-assistant",
-  "version": "0.1.0",
-  "description": "Manage a local job search with persistent private files, application preparation, referrals, and browser workflows.",
+  "version": "0.1.1",
+  "description": "Plan and track a job search with local workspace persistence, application preparation, referrals, and approved browser workflows.",
   "author": {
     "name": "Farzam Hejazi"
   },
@@ -10,12 +10,40 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Job Search Assistant",
-    "shortDescription": "A job search that resumes from your local workspace",
+    "shortDescription": "Your job search, saved locally",
+    "longDescription": "Organize your job search in a local workspace you control. Track roles, review next steps, research openings, prepare truthful resume and application materials, and coordinate referrals and follow-ups. Return in a new chat to continue from your saved tracker and progress.\n\nDesigned for Codex and ChatGPT Work sessions with access to your local files. Browser workflows also require supported browser tools and sign-in to the relevant service. LinkedIn Jobs is the primary discovery source; Indeed is optional. Review and approve uploads, messages, application submissions, and public profile changes.\n\nThis plugin contains skills and templates, with no publisher-operated server or background service. Your working files persist outside the installed plugin. Local storage does not mean offline processing: information read by the assistant is processed through OpenAI and any services you choose to use. Cloud-only sessions cannot load your computer's workspace without local computer access. No cross-device sync or job-placement guarantee is provided.\n\nIndependent project by Farzam Hejazi; not affiliated with or endorsed by OpenAI, LinkedIn, Indeed, or employers.",
+    "developerName": "Farzam Hejazi",
     "category": "Productivity",
+    "capabilities": [
+      "Local job tracking",
+      "Application preparation",
+      "Referral planning"
+    ],
+    "websiteURL": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
+    "supportURL": "https://github.com/FarzamHejaziK/codex_linkedin_assistant/issues",
     "defaultPrompt": [
-      "Help me get started with my local job-search workspace.",
-      "What needs my attention in my job search?",
+      "Help me set up a local workspace for my job search.",
+      "Review my job tracker and recommend my next steps.",
       "Continue my job search from saved progress."
-    ]
+    ],
+    "brandColor": "#142B3A",
+    "brandColorDark": "#69E0C1",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg"
+  },
+  "homepage": "https://github.com/FarzamHejaziK/codex_linkedin_assistant",
+  "keywords": [
+    "job-search",
+    "applications",
+    "resume",
+    "local-workspace"
+  ],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/jobs/SKILL.md",
+      "publication": {
+        "release_notes": "0.1.1 adds directory listing metadata, original icons, and a data-handling notice. Local workspace persistence and the 16-column tracker schema are unchanged."
+      }
+    }
   }
 }

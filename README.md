@@ -10,7 +10,7 @@
   <a href="CONTRIBUTING.md"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
   <img alt="Maintained" src="https://img.shields.io/badge/Maintained-yes-success">
   <a href="SECURITY.md"><img alt="Security policy" src="https://img.shields.io/badge/Security-policy-blue"></a>
-  <img alt="Privacy" src="https://img.shields.io/badge/Private%20Data-local%20only-success">
+  <img alt="Local workspace storage" src="https://img.shields.io/badge/Workspace-local%20files-success">
 </p>
 
 <p align="center">
@@ -23,7 +23,7 @@
   <a href="#contributing"><strong>Contributing</strong></a>
 </p>
 
-A Codex job-search assistant. Track jobs in a single CSV, discover openings via LinkedIn + web search + optional Indeed, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
+A local job-search assistant for Codex and ChatGPT Work. Track jobs in a single CSV, discover openings via LinkedIn + web search + optional Indeed, orchestrate referrals, tailor resumes, prepare application materials, and keep application state in one local workspace.
 
 > **Scope on purpose:** Codex handles the repetitive organization, drafting, browser navigation, and file preparation. You approve anything externally visible or judgment-heavy: messages, emails, uploads, applications, sensitive screening answers, and final submissions.
 
@@ -33,9 +33,9 @@ Looking for the Claude Code version? See [claude-linkedin-assistant](https://git
 
 ## Prerequisites
 
-- **Codex desktop app** with this folder open and its built-in browser available. Local setup, tracker checks, and saved-source preparation also work without browser access.
+- **Codex or ChatGPT Work on desktop** with access to the selected local workspace. Open this repository in Codex or install the plugin through a supported local source. Browser steps require available browser tools; local setup, tracker checks, and saved-source preparation also work without them.
 - **LinkedIn sign-in in the selected browser** before LinkedIn discovery or outreach. The built-in browser has a separate profile from your regular Chrome session, so you may need to sign in there.
-- **Git** to clone and update the repository. Daily work is not automatically committed.
+- **Git** for the repository installation route. A packaged plugin does not require a repository checkout for daily use. Daily work is not automatically committed.
 
 **Chrome is optional.** Use connected Chrome when you explicitly want an existing tab/profile, the built-in browser is unavailable, or a required capability needs it. The default experience does not require installing a Chrome extension.
 
@@ -100,6 +100,12 @@ Plugin updates and removal leave the external workspace alone. To relocate it, m
 
 See the [persistence contract](plugins/job-search-assistant/skills/jobs/references/local-persistence.md) for initialization and recovery rules.
 
+## Plugin distribution
+
+The installable package is `plugins/job-search-assistant/`. Version 0.1.1 includes directory listing metadata and icons. The local marketplace and GitHub source are separate from OpenAI's public plugin directory; a release ZIP must pass OpenAI's checks and review before publication. This repository does not claim directory approval or availability.
+
+See the [publication guide](.docs/plugin-publication.md) for packaging, validation, and submission status. The package's [data-handling notice](plugins/job-search-assistant/PRIVACY.md) explains local storage and processing by OpenAI and selected services. Cloud-only chats need authorized access to the same computer to use its saved workspace; installation does not synchronize private files.
+
 ## What it does
 
 | Say this | Shortcut | Result |
@@ -161,6 +167,8 @@ Priority,Company,Role,Location,Type,Salary,Status,Applied Date,Next Action,URL,N
 
 The working tracker, real resumes, profile/session files, application folders, outreach logs, and base resume sources are ignored by default. Only the empty tracker template and generic examples belong in the public repository. Never force-add private files.
 
+Local persistence does not mean offline processing. Content read by the assistant can enter the OpenAI conversation, and approved browser/tool actions can share information with selected services. See the [data-handling notice](plugins/job-search-assistant/PRIVACY.md).
+
 **Existing checkout migration:** if your tracker is still tracked, preserve a private backup before updating the repository. Ask Codex to retain the local file and remove only its Git index entry; adding an ignore rule alone does not protect tracked files. See [workspace migration](.agents/skills/jobs/references/workspace-files.md). Restoring the working file after an update does not change its schema. Previously committed data remains in Git history; this change does not rewrite history.
 
 ## Contributing
@@ -173,6 +181,7 @@ Pull requests only; see [CONTRIBUTING.md](CONTRIBUTING.md), [MAINTAINERS.md](MAI
 - [Implementation plan](.docs/plan.md)
 - [UX improvement plan and acceptance scenarios](.docs/ux-improvement-plan.md)
 - [Local plugin implementation plan](.docs/local-plugin-plan.md)
+- [Plugin publication guide](.docs/plugin-publication.md)
 
 ## Related
 
