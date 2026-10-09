@@ -1,6 +1,6 @@
-# Job Search Assistant: Data Handling
+# Job Search Assistant Privacy Policy
 
-Version 0.1.1, 2026-10-09. Publisher: Farzam Hejazi.
+Effective date: October 9, 2026. Publisher: Farzam Hejazi.
 
 This skills-only package provides instructions, generic templates, and presentation assets. It includes no publisher-operated server, telemetry, analytics, account system, or background service.
 
@@ -18,6 +18,12 @@ The workflow requests a concrete, scoped review before uploading files, sending 
 
 ## Support
 
-Use the source repository's Issues page for public bug reports. Do not post resumes, profile answers, credentials, or private job-search records. Follow the repository's SECURITY.md for security reports.
+For privacy questions or public bug reports, contact the publisher through the [source repository's Issues page](https://github.com/FarzamHejaziK/codex_linkedin_assistant/issues). Information you choose to post there is public and is handled by GitHub under its own policies. Do not post resumes, profile answers, credentials, or private job-search records. For security reports, follow the repository's [Security Policy](https://github.com/FarzamHejaziK/codex_linkedin_assistant/blob/main/SECURITY.md).
+
+The publisher does not receive or hold your local workspace files through this plugin and cannot delete them remotely. You can delete your workspace and the local configuration pointer yourself, and manage conversation retention through your OpenAI account settings. If you share information with another service, use that service's controls for retention or deletion.
+
+## Policy updates
+
+Changes to this policy will be published in the [source repository](https://github.com/FarzamHejaziK/codex_linkedin_assistant) with an updated effective date. Each plugin release links to the policy revision supplied with that release.
 
 Job Search Assistant is an independent project. It is not affiliated with or endorsed by OpenAI, LinkedIn, Indeed, or an employer.
