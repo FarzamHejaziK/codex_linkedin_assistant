@@ -42,10 +42,10 @@ The current submission flow does not support adding an MCP server to an existing
 ## Status
 
 - Package preparation and local validation: complete. Both manifests agree, the portable manifest passes its published JSON Schema, listing limits and local references pass, and the original 512px SVG was rendered and visually checked.
-- Archive: 0.1.2 is being rebuilt after the privacy-policy URL update. The previous 0.1.1 archive passed extraction and byte comparisons for all 27 public package files.
+- Archive: dist/job-search-assistant-0.1.2.zip contains exactly the 27 public package files and matches the committed package byte-for-byte. SHA-256: `a35198a3cf28a7d5a72bc214511e984c16df56838cb052c5a3d0cf4f76c3cc6d`. Both manifests match and the portable manifest passes the published JSON Schema.
 - Local installation: 0.1.1 is installed and enabled through the existing marketplace; all 27 installed files match source. Eight existing private files, including the saved pointer, are unchanged. A process started outside the repository resolved the same workspace and matching 16-column tracker schema.
 - Fresh ChatGPT Work behavioral tests: pending; not claimed by static package validation.
-- Portal: 0.1.1 was uploaded under the verified individual identity. Metadata reported a non-blocking privacy-policy URL finding; 0.1.2 adds the public repository policy URL to address it. Revised upload, scan results, review, and publication remain pending.
+- Portal: 0.1.2 uploaded under the verified individual identity. The privacy-policy link is present, publicly readable without signing in, and metadata checks report "No findings." The skill scan is still running. Review has not been submitted and the plugin is not published; submission also requires the publisher's confirmation of terms and declarations.
 
 ## Sources
 
